@@ -1,0 +1,96 @@
+<div class="admin-usuarios-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Administrador</span>
+      <h1>Gestión de usuarios</h1>
+      <p>Administra usuarios, credenciales y roles del sistema.</p>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <div class="form-card">
+      <h3>{{ editando ? 'Editar usuario' : 'Nuevo usuario' }}</h3>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="usuario.nombre">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="usuario.email">
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          [(ngModel)]="usuario.password"
+          [placeholder]="editando ? 'Dejar vacío para mantener contraseña' : 'Ingrese contraseña'">
+      </div>
+
+      <div class="form-group">
+        <label>Rol</label>
+        <select [(ngModel)]="usuario.rol">
+          <option value="USER">USER</option>
+          <option value="ADMIN">ADMIN</option>
+        </select>
+      </div>
+
+      <button class="btn-save" (click)="guardarUsuario()">
+        {{ editando ? 'Actualizar usuario' : 'Registrar usuario' }}
+      </button>
+
+      <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
+        Cancelar edición
+      </button>
+    </div>
+
+    <div class="table-card">
+      <h3>Usuarios registrados</h3>
+
+      <div class="alert alert-danger" *ngIf="mensaje">
+        {{ mensaje }}
+      </div>
+
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of usuarios">
+          <td>{{ item.id }}</td>
+          <td>
+            <strong>{{ item.nombre }}</strong>
+          </td>
+          <td>{{ item.email }}</td>
+          <td>
+              <span class="role" [ngClass]="item.rol === 'ADMIN' ? 'role-admin' : 'role-user'">
+                {{ item.rol }}
+              </span>
+          </td>
+          <td>
+            <button class="btn-edit" (click)="editar(item)">Editar</button>
+            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

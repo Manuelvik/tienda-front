@@ -1,0 +1,74 @@
+<div class="admin-categorias-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Administrador</span>
+      <h1>Gestión de categorías</h1>
+      <p>Organiza los productos tecnológicos por tipo o sección.</p>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <div class="form-card">
+      <h3>{{ editando ? 'Editar categoría' : 'Nueva categoría' }}</h3>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="categoria.nombre">
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea [(ngModel)]="categoria.descripcion"></textarea>
+      </div>
+
+      <button class="btn-save" (click)="guardarCategoria()">
+        {{ editando ? 'Actualizar categoría' : 'Registrar categoría' }}
+      </button>
+
+      <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
+        Cancelar edición
+      </button>
+    </div>
+
+    <div class="table-card">
+      <h3>Categorías registradas</h3>
+
+      <div class="alert alert-danger" *ngIf="mensaje">
+        {{ mensaje }}
+      </div>
+
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Categoría</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of categorias">
+          <td>{{ item.id }}</td>
+          <td>
+            <strong>{{ item.nombre }}</strong>
+          </td>
+          <td>{{ item.descripcion }}</td>
+          <td>
+            <button class="btn-edit" (click)="editar(item)">Editar</button>
+            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

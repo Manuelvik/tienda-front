@@ -1,0 +1,101 @@
+<div class="admin-productos-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Administrador</span>
+      <h1>Gestión de productos</h1>
+      <p>Registra, edita y elimina productos del catálogo.</p>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <div class="form-card">
+      <h3>{{ editando ? 'Editar producto' : 'Nuevo producto' }}</h3>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="producto.nombre">
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea [(ngModel)]="producto.descripcion"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Precio</label>
+          <input type="number" [(ngModel)]="producto.precio">
+        </div>
+
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" [(ngModel)]="producto.stock">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+        <select [(ngModel)]="producto.categoriaId">
+          <option [ngValue]="0">Seleccione una categoría</option>
+          <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">
+            {{ categoria.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <button class="btn-save" (click)="guardarProducto()">
+        {{ editando ? 'Actualizar producto' : 'Registrar producto' }}
+      </button>
+
+      <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
+        Cancelar edición
+      </button>
+    </div>
+
+    <div class="table-card">
+      <h3>Productos registrados</h3>
+
+      <div class="alert alert-danger" *ngIf="mensaje">
+        {{ mensaje }}
+      </div>
+
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Producto</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of productos">
+          <td>{{ item.id }}</td>
+          <td>
+            <strong>{{ item.nombre }}</strong>
+            <small>{{ item.descripcion }}</small>
+          </td>
+          <td>{{ item.categoria?.nombre || 'Sin categoría' }}</td>
+          <td>S/ {{ item.precio }}</td>
+          <td>{{ item.stock }}</td>
+          <td>
+            <button class="btn-edit" (click)="editar(item)">Editar</button>
+            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

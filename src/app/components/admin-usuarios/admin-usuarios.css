@@ -1,0 +1,180 @@
+.admin-usuarios-page {
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 26px;
+}
+
+.section-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.page-header h1 {
+  margin: 12px 0 4px;
+  font-size: 36px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.page-header p {
+  color: #64748b;
+  margin: 0;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.form-card,
+.table-card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.form-card h3,
+.table-card h3 {
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 22px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  color: #334155;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+}
+
+.btn-save,
+.btn-cancel {
+  width: 100%;
+  border: none;
+  padding: 13px;
+  border-radius: 15px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.btn-save {
+  background: #0f172a;
+  color: white;
+}
+
+.btn-save:hover {
+  background: #1d4ed8;
+}
+
+.btn-cancel {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+td strong {
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.role {
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.role-admin {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.role-user {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.btn-edit,
+.btn-delete {
+  border: none;
+  padding: 8px 11px;
+  border-radius: 10px;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+.btn-edit {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.btn-delete {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.toast-custom {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background: #0f172a;
+  color: white;
+  padding: 16px 22px;
+  border-radius: 16px;
+  font-weight: 800;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+  z-index: 999;
+}
+
+@media (max-width: 1050px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}

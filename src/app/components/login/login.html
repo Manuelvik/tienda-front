@@ -1,0 +1,61 @@
+<div class="login-wrapper">
+  <div class="login-container">
+
+    <div class="login-left">
+      <h1>CyberStore</h1>
+      <p>Encuentra laptops, componentes y accesorios tecnológicos.</p>
+
+      <div class="features">
+        <span>✔ Productos gamer</span>
+        <span>✔ Compras seguras</span>
+        <span>✔ Gestión con JWT</span>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <h2>Iniciar sesión</h2>
+      <p class="subtitle">Accede a tu cuenta</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="ejemplo@gmail.com">
+          <small class="text-danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Ingrese un email válido
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Ingrese su contraseña">
+          <small class="text-danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            La contraseña es obligatoria
+          </small>
+        </div>
+
+        <button class="btn btn-login w-100" type="submit">
+          Iniciar sesión
+        </button>
+      </form>
+
+      <p class="register-text">
+        ¿No tienes cuenta?
+        <a routerLink="/register">Regístrate aquí</a>
+      </p>
+
+      <div class="alert alert-danger mt-3" *ngIf="mensaje">
+        {{ mensaje }}
+      </div>
+    </div>
+
+  </div>
+</div>

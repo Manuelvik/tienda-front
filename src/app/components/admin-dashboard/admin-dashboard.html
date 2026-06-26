@@ -1,0 +1,67 @@
+<div class="admin-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Administrador</span>
+      <h1>Panel de control</h1>
+      <p>Resumen general del sistema Tienda Tec.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="loader" *ngIf="cargando">
+    Cargando información...
+  </div>
+
+  <div class="stats-grid" *ngIf="!cargando && resumen">
+
+    <div class="stat-card blue">
+      <span>Usuarios registrados</span>
+      <strong>{{ resumen.totalUsuarios }}</strong>
+      <p>Clientes y administradores</p>
+    </div>
+
+    <div class="stat-card green">
+      <span>Productos</span>
+      <strong>{{ resumen.totalProductos }}</strong>
+      <p>Productos disponibles</p>
+    </div>
+
+    <div class="stat-card orange">
+      <span>Pedidos</span>
+      <strong>{{ resumen.totalPedidos }}</strong>
+      <p>Pedidos generados</p>
+    </div>
+
+  </div>
+
+  <div class="admin-actions">
+    <div class="action-card">
+      <h3>Gestión de productos</h3>
+      <p>Registrar, editar y eliminar productos.</p>
+      <button routerLink="/admin/productos">
+        Administrar productos
+      </button>
+    </div>
+
+    <div class="action-card">
+      <h3>Gestión de categorías</h3>
+      <p>Organizar productos por categorías.</p>
+      <button routerLink="/admin/categorias">
+        Administrar categorías
+      </button>
+    </div>
+
+    <div class="action-card">
+      <h3>Gestión de usuarios</h3>
+      <p>Controlar usuarios y roles del sistema.</p>
+      <button routerLink="/admin/usuarios">
+        Administrar usuarios
+      </button>
+    </div>
+  </div>
+
+</div>

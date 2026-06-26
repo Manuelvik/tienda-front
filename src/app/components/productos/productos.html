@@ -1,0 +1,98 @@
+<div class="productos-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Catálogo</span>
+      <h1>Productos tecnológicos</h1>
+      <p>Explora laptops, componentes, periféricos y accesorios disponibles.</p>
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por nombre, categoría o descripción..."
+        [(ngModel)]="busqueda"
+        (input)="filtrarProductos()">
+    </div>
+  </div>
+
+  <div class="summary-row">
+    <div class="summary-card">
+      <span>Total productos</span>
+      <strong>{{ productos.length }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Resultados</span>
+      <strong>{{ productosFiltrados.length }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Estado</span>
+      <strong>Disponible</strong>
+    </div>
+  </div>
+
+  <div class="productos-grid" *ngIf="!cargando">
+    <div class="producto-card" *ngFor="let producto of productosFiltrados">
+
+      <div class="discount-badge">-15%</div>
+      <button class="favorite-btn">♡</button>
+
+      <div class="product-image">
+        <span>{{ producto.nombre.charAt(0) }}</span>
+      </div>
+
+      <div class="product-info">
+        <div class="top-line">
+          <span class="category">
+            {{ producto.categoria?.nombre || 'Sin categoría' }}
+          </span>
+
+          <span class="stock" [ngClass]="stockClase(producto.stock)">
+            Stock: {{ producto.stock }}
+          </span>
+        </div>
+
+        <h3>{{ producto.nombre }}</h3>
+        <p>{{ producto.descripcion }}</p>
+
+        <div class="rating">
+          ★★★★★ <span>(128 reseñas)</span>
+        </div>
+
+        <div class="price-row">
+          <div>
+            <small>Precio especial</small>
+            <strong>S/ {{ producto.precio }}</strong>
+            <del>S/ {{ producto.precio + 500 }}</del>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button
+            class="btn-cart"
+            [disabled]="producto.stock <= 0"
+            (click)="agregarCarrito(producto.id)">
+            {{ producto.stock <= 0 ? 'Sin stock' : 'Agregar' }}
+          </button>
+
+          <button class="btn-view">
+            Ver
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!cargando && productosFiltrados.length === 0">
+    <h3>No se encontraron productos</h3>
+    <p>Intenta buscar con otro nombre o categoría.</p>
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

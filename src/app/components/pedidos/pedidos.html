@@ -1,0 +1,59 @@
+<div class="pedidos-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Pedidos</span>
+      <h1>Mis pedidos</h1>
+      <p>Consulta el historial de compras realizadas en Tienda Tec.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="loader" *ngIf="cargando">
+    Cargando pedidos...
+  </div>
+
+  <div class="empty-state" *ngIf="!cargando && pedidos.length === 0">
+    <h3>Aún no tienes pedidos</h3>
+    <p>Agrega productos al carrito y genera tu primer pedido.</p>
+  </div>
+
+  <div class="pedidos-grid" *ngIf="!cargando && pedidos.length > 0">
+
+    <div class="pedido-card" *ngFor="let pedido of pedidos">
+
+      <div class="pedido-top">
+        <div>
+          <span class="pedido-id">Pedido #{{ pedido.id }}</span>
+          <h3>Compra realizada</h3>
+        </div>
+
+        <span class="estado" [ngClass]="estadoClase(pedido.estado)">
+          {{ pedido.estado }}
+        </span>
+      </div>
+
+      <div class="pedido-info">
+        <div>
+          <small>Fecha</small>
+          <strong>{{ pedido.fecha | date:'dd/MM/yyyy HH:mm' }}</strong>
+        </div>
+
+        <div>
+          <small>Total</small>
+          <strong>S/ {{ pedido.total }}</strong>
+        </div>
+      </div>
+
+      <button class="btn-detalle">
+        Ver detalle
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

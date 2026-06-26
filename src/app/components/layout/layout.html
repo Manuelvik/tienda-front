@@ -1,0 +1,41 @@
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="logo">TT</span>
+      <div>
+        <h3>CyberStore</h3>
+        <small>Panel {{ rol }}</small>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/dashboard">Inicio</a>
+      <a routerLink="/productos">Productos</a>
+      <a routerLink="/carrito">Carrito</a>
+      <a routerLink="/pedidos">Pedidos</a>
+      <a routerLink="/admin/usuarios" *ngIf="rol === 'ADMIN'">Usuarios</a>
+      <a routerLink="/dashboard" *ngIf="rol === 'ADMIN'">Categorías</a>
+      <a routerLink="/admin/dashboard" *ngIf="rol === 'ADMIN'">Panel Admin</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <h2>Bienvenido</h2>
+        <p>Gestiona tu tienda tecnológica</p>
+      </div>
+
+      <div class="top-actions">
+        <span class="role-badge">{{ rol }}</span>
+        <button (click)="logout()">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+
+</div>

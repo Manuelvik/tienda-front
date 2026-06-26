@@ -1,0 +1,117 @@
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  background: #f8fafc;
+}
+
+.sidebar {
+  background: #0f172a;
+  color: white;
+  padding: 28px 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-weight: 900;
+}
+
+.brand h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand small {
+  color: #94a3b8;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 13px 15px;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.menu a:hover {
+  background: #1e293b;
+  color: white;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.topbar {
+  background: white;
+  height: 82px;
+  padding: 0 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.topbar h2 {
+  margin: 0;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.topbar p {
+  margin: 0;
+  color: #64748b;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.role-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.top-actions button {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.content {
+  padding: 32px;
+}
+
+@media (max-width: 850px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+  }
+}

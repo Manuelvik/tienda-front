@@ -1,0 +1,84 @@
+<div class="carrito-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Carrito</span>
+      <h1>Mi carrito de compras</h1>
+      <p>Revisa tus productos antes de generar el pedido.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="loader" *ngIf="cargando">
+    Cargando carrito...
+  </div>
+
+  <div class="empty-state" *ngIf="!cargando && items.length === 0">
+    <h3>Tu carrito está vacío</h3>
+    <p>Agrega productos desde el catálogo para continuar.</p>
+    <a routerLink="/productos">Ver productos</a>
+  </div>
+
+  <div class="cart-layout" *ngIf="!cargando && items.length > 0">
+
+    <div class="cart-list">
+
+      <div class="cart-item" *ngFor="let item of items">
+
+        <div class="item-image">
+          {{ item.producto.nombre.charAt(0) }}
+        </div>
+
+        <div class="item-info">
+          <span>{{ item.producto.categoria?.nombre || 'Sin categoría' }}</span>
+          <h3>{{ item.producto.nombre }}</h3>
+          <p>{{ item.producto.descripcion }}</p>
+        </div>
+
+        <div class="quantity">
+          <button (click)="disminuir(item)">-</button>
+          <strong>{{ item.cantidad }}</strong>
+          <button (click)="aumentar(item)">+</button>
+        </div>
+
+        <div class="price">
+          <small>Subtotal</small>
+          <strong>S/ {{ item.producto.precio * item.cantidad }}</strong>
+        </div>
+
+        <button class="delete-btn" (click)="eliminar(item.id)">
+          Eliminar
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="cart-summary">
+      <h3>Resumen del pedido</h3>
+
+      <div class="summary-line">
+        <span>Productos</span>
+        <strong>{{ items.length }}</strong>
+      </div>
+
+      <div class="summary-line">
+        <span>Total</span>
+        <strong>S/ {{ total }}</strong>
+      </div>
+
+      <button (click)="generarPedido()">
+        Generar pedido
+      </button>
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>
