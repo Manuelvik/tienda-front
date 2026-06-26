@@ -37,4 +37,8 @@ export class Auth {
   estaLogueado(): boolean {
     return !!localStorage.getItem('token');
   }
+
+  obtenerRol(): string | null {
+    return localStorage.getItem('rol');
+  }
 }

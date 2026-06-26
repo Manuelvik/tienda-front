@@ -13,7 +13,8 @@
       <a routerLink="/dashboard">Inicio</a>
       <a routerLink="/productos">Productos</a>
       <a routerLink="/carrito">Carrito</a>
-      <a routerLink="/pedidos">Pedidos</a>
+      <a routerLink="/pedidos">Mis pedidos</a>
+      <a routerLink="/admin/pedidos" *ngIf="rol === 'ADMIN'">Gestión de pedidos</a>
       <a routerLink="/admin/usuarios" *ngIf="rol === 'ADMIN'">Usuarios</a>
       <a routerLink="/dashboard" *ngIf="rol === 'ADMIN'">Categorías</a>
       <a routerLink="/admin/dashboard" *ngIf="rol === 'ADMIN'">Panel Admin</a>

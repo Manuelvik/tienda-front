@@ -1,0 +1,75 @@
+<div class="admin-pedidos-page">
+
+  <div class="page-header">
+    <div>
+      <span class="section-badge">Administrador</span>
+      <h1>Gestión de pedidos</h1>
+      <p>Administra los pedidos generados por los clientes.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="pedidos-grid">
+
+    <div class="pedido-card" *ngFor="let pedido of pedidos">
+
+      <div class="pedido-top">
+        <div>
+          <span class="pedido-id">Pedido #{{ pedido.id }}</span>
+          <h3>{{ pedido.usuario?.nombre || 'Cliente' }}</h3>
+          <p>{{ pedido.usuario?.email || 'Sin correo' }}</p>
+        </div>
+
+        <span class="estado" [ngClass]="pedido.estado.toLowerCase()">
+          {{ pedido.estado }}
+        </span>
+      </div>
+
+      <div class="pedido-data">
+        <div>
+          <small>Fecha</small>
+          <strong>{{ pedido.fecha | date:'dd/MM/yyyy HH:mm' }}</strong>
+        </div>
+
+        <div>
+          <small>Total</small>
+          <strong>S/ {{ pedido.total }}</strong>
+        </div>
+      </div>
+
+      <div class="estado-control">
+        <label>Cambiar estado</label>
+        <select [(ngModel)]="pedido.estado">
+          <option *ngFor="let estado of estados" [value]="estado">
+            {{ estado }}
+          </option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="btn-save" (click)="guardarEstado(pedido)">
+          Guardar estado
+        </button>
+
+        <button class="btn-delete" (click)="eliminar(pedido.id)">
+          Eliminar
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="empty-state" *ngIf="pedidos.length === 0 && !mensaje">
+    <h3>No hay pedidos registrados</h3>
+    <p>Cuando los clientes generen pedidos aparecerán aquí.</p>
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

@@ -11,7 +11,8 @@ import { AdminDashboard } from './components/admin-dashboard/admin-dashboard';
 import { AdminProductos } from './components/admin-productos/admin-productos';
 import { AdminCategorias } from './components/admin-categorias/admin-categorias';
 import { AdminUsuarios } from './components/admin-usuarios/admin-usuarios';
-
+import { AdminPedidos } from './components/admin-pedidos/admin-pedidos';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,15 +23,18 @@ export const routes: Routes = [
   {
     path: '',
     component: Layout,
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'productos', component: Productos },
       { path: 'carrito', component: Carrito },
       { path: 'pedidos', component: Pedidos },
+
       { path: 'admin/dashboard', component: AdminDashboard },
       { path: 'admin/productos', component: AdminProductos },
       { path: 'admin/categorias', component: AdminCategorias },
       { path: 'admin/usuarios', component: AdminUsuarios },
+      { path: 'admin/pedidos', component: AdminPedidos },
     ],
   },
 

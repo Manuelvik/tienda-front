@@ -20,10 +20,48 @@ export class Pedido {
   }
 
   crear(data: any): Observable<any> {
-    return this.http.post(this.apiUrl, data, { headers: this.headers() });
+    return this.http.post(this.apiUrl, data, {
+      headers: this.headers(),
+    });
+  }
+
+  listar(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl, {
+      headers: this.headers(),
+    });
   }
 
   listarPorUsuario(usuarioId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/usuario/${usuarioId}`, { headers: this.headers() });
+    return this.http.get<any[]>(`${this.apiUrl}/usuario/${usuarioId}`, {
+      headers: this.headers(),
+    });
+  }
+
+  actualizar(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data, {
+      headers: this.headers(),
+    });
+  }
+
+  eliminar(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.headers(),
+      responseType: 'text',
+    });
+  }
+
+  filtrarPorEstado(estado: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/estado/${estado}`, {
+      headers: this.headers(),
+    });
+  }
+  actualizarEstado(id: number, estado: string): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/${id}/estado`,
+      { estado },
+      {
+        headers: this.headers(),
+      },
+    );
   }
 }
