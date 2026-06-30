@@ -178,3 +178,150 @@ td strong {
     grid-template-columns: 1fr;
   }
 }
+
+.error-text {
+  display: block;
+  margin-top: 6px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hint-text {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.acciones-cell {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.btn-edit,
+.btn-delete {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  background: #bfdbfe;
+  transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+table td {
+  vertical-align: middle;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+}
+
+.btn-refresh {
+  border: none;
+  background: #0f172a;
+  color: white;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.loader,
+.alert {
+  background: white;
+  border-radius: 20px;
+  padding: 35px;
+  text-align: center;
+  color: #64748b;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+  margin-bottom: 22px;
+}
+
+.alert-danger {
+  color: #b91c1c;
+  background: #fee2e2;
+  font-weight: 800;
+}
+
+.btn-save,
+.btn-delete,
+.btn-refresh {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn-save:disabled,
+.btn-delete:disabled,
+.estado-control select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.estado.proceso {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.estado.entregado {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.estado.pendiente {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.estado.completado {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.estado.cancelado {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+@media (max-width: 850px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-refresh {
+    width: 100%;
+  }
+}

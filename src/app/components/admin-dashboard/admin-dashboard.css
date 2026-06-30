@@ -3,7 +3,11 @@
 }
 
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 26px;
+  gap: 20px;
 }
 
 .section-badge {
@@ -27,13 +31,37 @@
   margin: 0;
 }
 
-.loader {
+.btn-refresh {
+  border: none;
+  background: #0f172a;
+  color: white;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.loader,
+.alert {
   background: white;
   border-radius: 20px;
   padding: 35px;
   text-align: center;
   color: #64748b;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+}
+
+.alert-danger {
+  color: #b91c1c;
+  background: #fee2e2;
+  font-weight: 800;
+  margin-bottom: 20px;
 }
 
 .stats-grid {
@@ -44,10 +72,31 @@
 }
 
 .stat-card {
+  position: relative;
   background: white;
   border-radius: 24px;
   padding: 28px;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  transition: all 0.22s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+}
+
+.stat-icon {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  background: #f8fafc;
 }
 
 .stat-card span {
@@ -79,9 +128,122 @@
   color: #ea580c;
 }
 
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.chart-card,
+.status-card {
+  background: white;
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.card-header p {
+  margin: 6px 0 22px;
+  color: #64748b;
+}
+
+.bar-group {
+  margin-bottom: 22px;
+}
+
+.bar-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #334155;
+  font-weight: 800;
+}
+
+.bar-track {
+  width: 100%;
+  height: 14px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  min-width: 8%;
+  transition: width 0.35s ease;
+}
+
+.blue-fill {
+  background: linear-gradient(90deg, #60a5fa, #1d4ed8);
+}
+
+.green-fill {
+  background: linear-gradient(90deg, #86efac, #16a34a);
+}
+
+.orange-fill {
+  background: linear-gradient(90deg, #fdba74, #ea580c);
+}
+
+.status-list {
+  display: grid;
+  gap: 18px;
+}
+
+.status-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #f8fafc;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.status-item strong {
+  display: block;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.status-item p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.green-dot {
+  background: #16a34a;
+  box-shadow: 0 0 0 6px #dcfce7;
+}
+
+.blue-dot {
+  background: #1d4ed8;
+  box-shadow: 0 0 0 6px #dbeafe;
+}
+
+.orange-dot {
+  background: #ea580c;
+  box-shadow: 0 0 0 6px #ffedd5;
+}
+
 .admin-actions {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 22px;
 }
 
@@ -90,32 +252,68 @@
   border-radius: 24px;
   padding: 26px;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  transition: all 0.22s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.14);
+}
+
+.action-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: #f8fafc;
+  border-radius: 16px;
+  font-size: 26px;
+  margin-bottom: 14px;
 }
 
 .action-card h3 {
   font-weight: 900;
   color: #0f172a;
+  margin: 0 0 8px;
 }
 
 .action-card p {
   color: #64748b;
-  min-height: 48px;
+  min-height: 62px;
 }
 
 .action-card button {
+  width: 100%;
   border: none;
   background: #0f172a;
   color: white;
   padding: 12px 16px;
   border-radius: 14px;
   font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .action-card button:hover {
   background: #1d4ed8;
 }
 
+@media (max-width: 1100px) {
+  .admin-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 900px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .stats-grid,
   .admin-actions {
     grid-template-columns: 1fr;

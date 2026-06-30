@@ -40,7 +40,16 @@
       <button class="favorite-btn">♡</button>
 
       <div class="product-image">
-        <span>{{ producto.nombre.charAt(0) }}</span>
+        <img
+          *ngIf="producto.imagenUrl"
+          [src]="producto.imagenUrl"
+          [alt]="producto.nombre"
+          class="product-img-real"
+        />
+
+        <span *ngIf="!producto.imagenUrl">
+          {{ producto.nombre.charAt(0) }}
+        </span>
       </div>
 
       <div class="product-info">
@@ -55,6 +64,7 @@
         </div>
 
         <h3>{{ producto.nombre }}</h3>
+
         <p>{{ producto.descripcion }}</p>
 
         <div class="rating">

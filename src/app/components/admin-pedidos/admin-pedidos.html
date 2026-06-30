@@ -6,13 +6,21 @@
       <h1>Gestión de pedidos</h1>
       <p>Administra los pedidos generados por los clientes.</p>
     </div>
+
+    <button class="btn-refresh" (click)="cargarPedidos()">
+      Actualizar
+    </button>
   </div>
 
   <div class="alert alert-danger" *ngIf="mensaje">
     {{ mensaje }}
   </div>
 
-  <div class="pedidos-grid">
+  <div class="loader" *ngIf="cargando">
+    Cargando pedidos...
+  </div>
+
+  <div class="pedidos-grid" *ngIf="!cargando">
 
     <div class="pedido-card" *ngFor="let pedido of pedidos">
 
@@ -23,8 +31,8 @@
           <p>{{ pedido.usuario?.email || 'Sin correo' }}</p>
         </div>
 
-        <span class="estado" [ngClass]="pedido.estado.toLowerCase()">
-          {{ pedido.estado }}
+        <span class="estado" [ngClass]="estadoClase(pedido.estado)">
+          {{ pedido.estado || 'PENDIENTE' }}
         </span>
       </div>
 
@@ -42,7 +50,10 @@
 
       <div class="estado-control">
         <label>Cambiar estado</label>
-        <select [(ngModel)]="pedido.estado">
+
+        <select
+          [(ngModel)]="pedido.estado"
+          [disabled]="actualizandoId === pedido.id || eliminandoId === pedido.id">
           <option *ngFor="let estado of estados" [value]="estado">
             {{ estado }}
           </option>
@@ -50,12 +61,20 @@
       </div>
 
       <div class="actions">
-        <button class="btn-save" (click)="guardarEstado(pedido)">
-          Guardar estado
+        <button
+          class="btn-save"
+          [disabled]="actualizandoId === pedido.id || eliminandoId === pedido.id"
+          (click)="guardarEstado(pedido)">
+
+          {{ actualizandoId === pedido.id ? 'Guardando...' : 'Guardar estado' }}
         </button>
 
-        <button class="btn-delete" (click)="eliminar(pedido.id)">
-          Eliminar
+        <button
+          class="btn-delete"
+          [disabled]="actualizandoId === pedido.id || eliminandoId === pedido.id"
+          (click)="eliminar(pedido.id)">
+
+          {{ eliminandoId === pedido.id ? 'Eliminando...' : 'Eliminar' }}
         </button>
       </div>
 
@@ -63,7 +82,7 @@
 
   </div>
 
-  <div class="empty-state" *ngIf="pedidos.length === 0 && !mensaje">
+  <div class="empty-state" *ngIf="!cargando && pedidos.length === 0 && !mensaje">
     <h3>No hay pedidos registrados</h3>
     <p>Cuando los clientes generen pedidos aparecerán aquí.</p>
   </div>

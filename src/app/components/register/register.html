@@ -1,1 +1,96 @@
-<p>register works!</p>
+<div class="login-wrapper">
+  <div class="login-container">
+
+    <div class="login-left">
+      <h1>CyberStore</h1>
+      <p>Crea tu cuenta y empieza a comprar productos tecnológicos.</p>
+
+      <div class="features">
+        <span>✔ Registro rápido</span>
+        <span>✔ Acceso seguro</span>
+        <span>✔ Experiencia personalizada</span>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <h2>Crear cuenta</h2>
+      <p class="subtitle">Regístrate para acceder a la tienda</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="registrar()">
+
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nombre"
+            placeholder="Ingrese su nombre">
+
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched">
+            El nombre es obligatorio
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            placeholder="ejemplo@gmail.com">
+
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            Ingrese un email válido
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Mínimo 6 caracteres">
+
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+            La contraseña es obligatoria
+          </small>
+
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched">
+            La contraseña debe tener mínimo 6 caracteres
+          </small>
+        </div>
+
+        <button
+          class="btn btn-login w-100"
+          type="submit"
+          [disabled]="cargando">
+
+          {{ cargando ? 'Registrando...' : 'Registrarme' }}
+        </button>
+      </form>
+
+      <p class="register-text">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login">Inicia sesión aquí</a>
+      </p>
+
+      <div class="alert alert-danger mt-3" *ngIf="mensaje">
+        {{ mensaje }}
+      </div>
+
+      <div class="alert alert-success mt-3" *ngIf="exito">
+        {{ exito }}
+      </div>
+    </div>
+
+  </div>
+</div>

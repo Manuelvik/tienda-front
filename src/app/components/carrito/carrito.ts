@@ -16,6 +16,9 @@ export class Carrito implements OnInit {
   mensaje = '';
   cargando = true;
   toast = '';
+  generandoPedido = false;
+  actualizandoId: number | null = null;
+  eliminandoId: number | null = null;
 
   constructor(
     private carritoService: CarritoService,
@@ -51,6 +54,12 @@ export class Carrito implements OnInit {
   }
 
   aumentar(item: any): void {
+    if (this.actualizandoId !== null) {
+      return;
+    }
+
+    this.actualizandoId = item.id;
+
     const data = {
       cantidad: item.cantidad + 1,
       usuarioId: item.usuario?.id,
@@ -61,13 +70,27 @@ export class Carrito implements OnInit {
       next: () => {
         item.cantidad++;
         this.calcularTotal();
+        this.actualizandoId = null;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.mostrarToast('No se pudo aumentar la cantidad');
+        this.actualizandoId = null;
         this.cdr.detectChanges();
       },
     });
   }
 
   disminuir(item: any): void {
-    if (item.cantidad <= 1) return;
+    if (this.actualizandoId !== null) {
+      return;
+    }
+
+    if (item.cantidad <= 1) {
+      return;
+    }
+
+    this.actualizandoId = item.id;
 
     const data = {
       cantidad: item.cantidad - 1,
@@ -79,17 +102,35 @@ export class Carrito implements OnInit {
       next: () => {
         item.cantidad--;
         this.calcularTotal();
+        this.actualizandoId = null;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.mostrarToast('No se pudo disminuir la cantidad');
+        this.actualizandoId = null;
         this.cdr.detectChanges();
       },
     });
   }
 
   eliminar(id: number): void {
+    if (this.eliminandoId !== null) {
+      return;
+    }
+
+    this.eliminandoId = id;
+
     this.carritoService.eliminar(id).subscribe({
       next: () => {
         this.items = this.items.filter((item) => item.id !== id);
         this.calcularTotal();
+        this.eliminandoId = null;
         this.mostrarToast('Producto eliminado del carrito');
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.eliminandoId = null;
+        this.mostrarToast('No se pudo eliminar el producto');
         this.cdr.detectChanges();
       },
     });
@@ -106,25 +147,39 @@ export class Carrito implements OnInit {
   }
 
   generarPedido(): void {
-    if (this.total <= 0) {
+    if (this.generandoPedido) {
+      return;
+    }
+
+    if (this.total <= 0 || this.items.length === 0) {
       this.mostrarToast('El carrito está vacío');
       return;
     }
 
     const usuarioId = Number(localStorage.getItem('usuarioId'));
 
+    if (!usuarioId) {
+      this.mostrarToast('No se encontró el usuario');
+      return;
+    }
+
     const data = {
       total: this.total,
       usuarioId: usuarioId,
     };
 
+    this.generandoPedido = true;
+
     this.pedidoService.crear(data).subscribe({
       next: () => {
         this.mostrarToast('Pedido generado correctamente');
+        this.generandoPedido = false;
+        this.cargarCarrito();
         this.cdr.detectChanges();
       },
       error: () => {
         this.mostrarToast('No se pudo generar el pedido');
+        this.generandoPedido = false;
         this.cdr.detectChanges();
       },
     });

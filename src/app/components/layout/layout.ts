@@ -17,7 +17,15 @@ export class Layout {
     private router: Router,
   ) {}
 
-  logout() {
+  esAdmin(): boolean {
+    return this.rol === 'ADMIN';
+  }
+
+  esUser(): boolean {
+    return this.rol === 'USER';
+  }
+
+  logout(): void {
     this.authService.cerrarSesion();
     this.router.navigate(['/login']);
   }

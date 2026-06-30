@@ -10,14 +10,65 @@
     </div>
 
     <nav class="menu">
-      <a routerLink="/dashboard">Inicio</a>
-      <a routerLink="/productos">Productos</a>
-      <a routerLink="/carrito">Carrito</a>
-      <a routerLink="/pedidos">Mis pedidos</a>
-      <a routerLink="/admin/pedidos" *ngIf="rol === 'ADMIN'">Gestión de pedidos</a>
-      <a routerLink="/admin/usuarios" *ngIf="rol === 'ADMIN'">Usuarios</a>
-      <a routerLink="/dashboard" *ngIf="rol === 'ADMIN'">Categorías</a>
-      <a routerLink="/admin/dashboard" *ngIf="rol === 'ADMIN'">Panel Admin</a>
+
+      <a
+        *ngIf="esUser()"
+        routerLink="/dashboard">
+        Inicio
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/dashboard">
+        Inicio
+      </a>
+
+      <a routerLink="/productos">
+        Productos
+      </a>
+
+      <a
+        *ngIf="esUser()"
+        routerLink="/carrito">
+        Carrito
+      </a>
+
+      <a
+        *ngIf="esUser()"
+        routerLink="/pedidos">
+        Mis pedidos
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/productos">
+        Gestión de productos
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/categorias">
+        Categorías
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/usuarios">
+        Usuarios
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/pedidos">
+        Gestión de pedidos
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/dashboard">
+        Panel Admin
+      </a>
+
     </nav>
   </aside>
 
@@ -25,7 +76,9 @@
     <header class="topbar">
       <div>
         <h2>Bienvenido</h2>
-        <p>Gestiona tu tienda tecnológica</p>
+        <p>
+          {{ esAdmin() ? 'Gestiona tu tienda tecnológica' : 'Explora y compra productos tecnológicos' }}
+        </p>
       </div>
 
       <div class="top-actions">

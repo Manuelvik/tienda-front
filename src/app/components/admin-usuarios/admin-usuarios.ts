@@ -14,12 +14,20 @@ export class AdminUsuarios implements OnInit {
 
   editando = false;
   usuarioId: number | null = null;
+  guardando = false;
 
   usuario = {
     nombre: '',
     email: '',
     password: '',
     rol: 'USER',
+  };
+
+  errores = {
+    nombre: '',
+    email: '',
+    password: '',
+    rol: '',
   };
 
   mensaje = '';
@@ -47,11 +55,68 @@ export class AdminUsuarios implements OnInit {
     });
   }
 
+  validarFormulario(): boolean {
+    this.errores = {
+      nombre: '',
+      email: '',
+      password: '',
+      rol: '',
+    };
+
+    let valido = true;
+
+    if (!this.usuario.nombre.trim()) {
+      this.errores.nombre = 'El nombre del usuario es obligatorio';
+      valido = false;
+    }
+
+    if (!this.usuario.email.trim()) {
+      this.errores.email = 'El email es obligatorio';
+      valido = false;
+    } else if (!this.validarEmail(this.usuario.email)) {
+      this.errores.email = 'Ingrese un email válido';
+      valido = false;
+    }
+
+    if (!this.editando && !this.usuario.password.trim()) {
+      this.errores.password = 'La contraseña es obligatoria';
+      valido = false;
+    }
+
+    if (
+      !this.editando &&
+      this.usuario.password.trim().length > 0 &&
+      this.usuario.password.length < 6
+    ) {
+      this.errores.password = 'La contraseña debe tener mínimo 6 caracteres';
+      valido = false;
+    }
+
+    if (!this.usuario.rol) {
+      this.errores.rol = 'Debe seleccionar un rol';
+      valido = false;
+    }
+
+    this.cdr.detectChanges();
+    return valido;
+  }
+
+  validarEmail(email: string): boolean {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
   guardarUsuario(): void {
-    if (!this.usuario.nombre || !this.usuario.email || (!this.editando && !this.usuario.password)) {
-      this.mostrarToast('Complete los campos obligatorios');
+    if (this.guardando) {
       return;
     }
+
+    if (!this.validarFormulario()) {
+      this.mostrarToast('Revise los campos del formulario');
+      return;
+    }
+
+    this.guardando = true;
 
     if (this.editando && this.usuarioId !== null) {
       this.usuarioService.actualizar(this.usuarioId, this.usuario).subscribe({
@@ -59,8 +124,14 @@ export class AdminUsuarios implements OnInit {
           this.mostrarToast('Usuario actualizado');
           this.limpiarFormulario();
           this.cargarUsuarios();
+          this.guardando = false;
+          this.cdr.detectChanges();
         },
-        error: () => this.mostrarToast('Error al actualizar usuario'),
+        error: () => {
+          this.mostrarToast('Error al actualizar usuario');
+          this.guardando = false;
+          this.cdr.detectChanges();
+        },
       });
     } else {
       this.usuarioService.guardar(this.usuario).subscribe({
@@ -68,8 +139,14 @@ export class AdminUsuarios implements OnInit {
           this.mostrarToast('Usuario registrado');
           this.limpiarFormulario();
           this.cargarUsuarios();
+          this.guardando = false;
+          this.cdr.detectChanges();
         },
-        error: () => this.mostrarToast('Error al registrar usuario'),
+        error: () => {
+          this.mostrarToast('Error al registrar usuario');
+          this.guardando = false;
+          this.cdr.detectChanges();
+        },
       });
     }
   }
@@ -82,7 +159,14 @@ export class AdminUsuarios implements OnInit {
       nombre: usuario.nombre,
       email: usuario.email,
       password: '',
-      rol: usuario.rol,
+      rol: usuario.rol || 'USER',
+    };
+
+    this.errores = {
+      nombre: '',
+      email: '',
+      password: '',
+      rol: '',
     };
 
     this.cdr.detectChanges();
@@ -109,6 +193,13 @@ export class AdminUsuarios implements OnInit {
       email: '',
       password: '',
       rol: 'USER',
+    };
+
+    this.errores = {
+      nombre: '',
+      email: '',
+      password: '',
+      rol: '',
     };
 
     this.cdr.detectChanges();

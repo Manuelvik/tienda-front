@@ -12,13 +12,24 @@ import { AdminProductos } from './components/admin-productos/admin-productos';
 import { AdminCategorias } from './components/admin-categorias/admin-categorias';
 import { AdminUsuarios } from './components/admin-usuarios/admin-usuarios';
 import { AdminPedidos } from './components/admin-pedidos/admin-pedidos';
+
 import { authGuard } from './guards/auth-guard';
+import { adminGuard } from './guards/admin-guard';
+import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
+  {
+    path: 'login',
+    component: Login,
+    canActivate: [guestGuard],
+  },
+  {
+    path: 'register',
+    component: Register,
+    canActivate: [guestGuard],
+  },
 
   {
     path: '',
@@ -30,11 +41,31 @@ export const routes: Routes = [
       { path: 'carrito', component: Carrito },
       { path: 'pedidos', component: Pedidos },
 
-      { path: 'admin/dashboard', component: AdminDashboard },
-      { path: 'admin/productos', component: AdminProductos },
-      { path: 'admin/categorias', component: AdminCategorias },
-      { path: 'admin/usuarios', component: AdminUsuarios },
-      { path: 'admin/pedidos', component: AdminPedidos },
+      {
+        path: 'admin/dashboard',
+        component: AdminDashboard,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'admin/productos',
+        component: AdminProductos,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'admin/categorias',
+        component: AdminCategorias,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'admin/usuarios',
+        component: AdminUsuarios,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'admin/pedidos',
+        component: AdminPedidos,
+        canActivate: [adminGuard],
+      },
     ],
   },
 

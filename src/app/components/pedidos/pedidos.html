@@ -6,6 +6,10 @@
       <h1>Mis pedidos</h1>
       <p>Consulta el historial de compras realizadas en Tienda Tec.</p>
     </div>
+
+    <button class="btn-refresh" (click)="cargarPedidos()">
+      Actualizar
+    </button>
   </div>
 
   <div class="alert alert-danger" *ngIf="mensaje">
@@ -16,7 +20,7 @@
     Cargando pedidos...
   </div>
 
-  <div class="empty-state" *ngIf="!cargando && pedidos.length === 0">
+  <div class="empty-state" *ngIf="!cargando && pedidos.length === 0 && !mensaje">
     <h3>Aún no tienes pedidos</h3>
     <p>Agrega productos al carrito y genera tu primer pedido.</p>
   </div>
@@ -29,10 +33,11 @@
         <div>
           <span class="pedido-id">Pedido #{{ pedido.id }}</span>
           <h3>Compra realizada</h3>
+          <p class="pedido-subtitle">Seguimiento de tu pedido</p>
         </div>
 
         <span class="estado" [ngClass]="estadoClase(pedido.estado)">
-          {{ pedido.estado }}
+          {{ pedido.estado || 'PENDIENTE' }}
         </span>
       </div>
 
@@ -48,12 +53,25 @@
         </div>
       </div>
 
-      <button class="btn-detalle">
-        Ver detalle
-      </button>
+      <div class="pedido-status-message">
+        <strong>Estado actual:</strong>
+        <span>
+          {{
+            pedido.estado === 'COMPLETADO'
+              ? 'Tu pedido fue completado correctamente.'
+              : pedido.estado === 'CANCELADO'
+                ? 'Tu pedido fue cancelado.'
+                : 'Tu pedido está pendiente de atención.'
+          }}
+        </span>
+      </div>
 
     </div>
 
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
   </div>
 
 </div>

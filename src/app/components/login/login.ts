@@ -13,6 +13,7 @@ import { Auth } from '../../services/auth';
 export class Login {
   loginForm: FormGroup;
   mensaje = '';
+  cargando = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,19 +26,31 @@ export class Login {
     });
   }
 
-  login() {
+  login(): void {
+    this.mensaje = '';
+
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       this.mensaje = 'Complete correctamente los campos';
       return;
     }
 
+    this.cargando = true;
+
     this.authService.login(this.loginForm.value).subscribe({
       next: (data) => {
         this.authService.guardarSesion(data);
-        this.router.navigate(['/dashboard']);
+        this.cargando = false;
+
+        if (data.rol === 'ADMIN') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: () => {
         this.mensaje = 'Credenciales incorrectas';
+        this.cargando = false;
       },
     });
   }

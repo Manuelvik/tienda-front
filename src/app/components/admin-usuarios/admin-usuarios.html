@@ -15,12 +15,26 @@
 
       <div class="form-group">
         <label>Nombre</label>
-        <input type="text" [(ngModel)]="usuario.nombre">
+        <input
+          type="text"
+          [(ngModel)]="usuario.nombre"
+          placeholder="Ingrese el nombre del usuario">
+
+        <small class="error-text" *ngIf="errores.nombre">
+          {{ errores.nombre }}
+        </small>
       </div>
 
       <div class="form-group">
         <label>Email</label>
-        <input type="email" [(ngModel)]="usuario.email">
+        <input
+          type="email"
+          [(ngModel)]="usuario.email"
+          placeholder="ejemplo@gmail.com">
+
+        <small class="error-text" *ngIf="errores.email">
+          {{ errores.email }}
+        </small>
       </div>
 
       <div class="form-group">
@@ -29,18 +43,41 @@
           type="password"
           [(ngModel)]="usuario.password"
           [placeholder]="editando ? 'Dejar vacío para mantener contraseña' : 'Ingrese contraseña'">
+
+        <small class="hint-text" *ngIf="editando">
+          Solo complete este campo si desea cambiar la contraseña.
+        </small>
+
+        <small class="error-text" *ngIf="errores.password">
+          {{ errores.password }}
+        </small>
       </div>
 
       <div class="form-group">
         <label>Rol</label>
         <select [(ngModel)]="usuario.rol">
+          <option value="">Seleccione un rol</option>
           <option value="USER">USER</option>
           <option value="ADMIN">ADMIN</option>
         </select>
+
+        <small class="error-text" *ngIf="errores.rol">
+          {{ errores.rol }}
+        </small>
       </div>
 
-      <button class="btn-save" (click)="guardarUsuario()">
-        {{ editando ? 'Actualizar usuario' : 'Registrar usuario' }}
+      <button
+        class="btn-save"
+        [disabled]="guardando"
+        (click)="guardarUsuario()">
+
+        {{
+        guardando
+        ? 'Guardando...'
+        : editando
+        ? 'Actualizar usuario'
+        : 'Registrar usuario'
+        }}
       </button>
 
       <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
@@ -69,18 +106,29 @@
         <tbody>
         <tr *ngFor="let item of usuarios">
           <td>{{ item.id }}</td>
+
           <td>
             <strong>{{ item.nombre }}</strong>
           </td>
+
           <td>{{ item.email }}</td>
+
           <td>
-              <span class="role" [ngClass]="item.rol === 'ADMIN' ? 'role-admin' : 'role-user'">
-                {{ item.rol }}
+              <span
+                class="role"
+                [ngClass]="item.rol === 'ADMIN' ? 'role-admin' : 'role-user'">
+                {{ item.rol || 'SIN ROL' }}
               </span>
           </td>
-          <td>
-            <button class="btn-edit" (click)="editar(item)">Editar</button>
-            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+
+          <td class="acciones-cell">
+            <button class="btn-edit" (click)="editar(item)">
+              Editar
+            </button>
+
+            <button class="btn-delete" (click)="eliminar(item.id)">
+              Eliminar
+            </button>
           </td>
         </tr>
         </tbody>

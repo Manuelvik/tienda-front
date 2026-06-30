@@ -167,3 +167,46 @@ td strong {
     grid-template-columns: 1fr;
   }
 }
+
+.error-text {
+  display: block;
+  margin-top: 6px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.form-group input.error,
+.form-group textarea.error {
+  border-color: #dc2626;
+}
+
+.acciones-cell {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.btn-edit,
+.btn-delete {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  background: #bfdbfe;
+  transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+  background: #fecaca;
+  transform: translateY(-2px);
+}
+
+table td {
+  vertical-align: middle;
+}

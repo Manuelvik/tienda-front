@@ -16,23 +16,58 @@
       <div class="form-group">
         <label>Nombre</label>
         <input type="text" [(ngModel)]="producto.nombre">
+
+        <small class="error-text" *ngIf="errores.nombre">
+          {{ errores.nombre }}
+        </small>
       </div>
 
       <div class="form-group">
         <label>Descripción</label>
         <textarea [(ngModel)]="producto.descripcion"></textarea>
+
+        <small class="error-text" *ngIf="errores.descripcion">
+          {{ errores.descripcion }}
+        </small>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label>Precio</label>
           <input type="number" [(ngModel)]="producto.precio">
+
+          <small class="error-text" *ngIf="errores.precio">
+            {{ errores.precio }}
+          </small>
         </div>
 
         <div class="form-group">
           <label>Stock</label>
           <input type="number" [(ngModel)]="producto.stock">
+
+          <small class="error-text" *ngIf="errores.stock">
+            {{ errores.stock }}
+          </small>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label>Imagen del producto</label>
+
+        <input
+          type="file"
+          accept="image/*"
+          (change)="seleccionarImagen($event)"
+        >
+      </div>
+
+      <div class="preview-imagen" *ngIf="producto.imagenUrl">
+        <p>Vista previa:</p>
+
+        <img
+          [src]="producto.imagenUrl"
+          alt="Vista previa del producto"
+        >
       </div>
 
       <div class="form-group">
@@ -43,10 +78,18 @@
             {{ categoria.nombre }}
           </option>
         </select>
+
+        <small class="error-text" *ngIf="errores.categoriaId">
+          {{ errores.categoriaId }}
+        </small>
       </div>
 
-      <button class="btn-save" (click)="guardarProducto()">
-        {{ editando ? 'Actualizar producto' : 'Registrar producto' }}
+      <button
+        class="btn-save"
+        [disabled]="subiendoImagen"
+        (click)="guardarProducto()">
+
+        {{ subiendoImagen ? 'Subiendo imagen...' : (editando ? 'Actualizar producto' : 'Registrar producto') }}
       </button>
 
       <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
@@ -65,6 +108,7 @@
         <thead>
         <tr>
           <th>ID</th>
+          <th>Imagen</th>
           <th>Producto</th>
           <th>Categoría</th>
           <th>Precio</th>
@@ -76,19 +120,36 @@
         <tbody>
         <tr *ngFor="let item of productos">
           <td>{{ item.id }}</td>
+
+          <td>
+            <img
+              [src]="item.imagenUrl || 'assets/productos/default.png'"
+              [alt]="item.nombre"
+              class="admin-product-img"
+            >
+          </td>
+
           <td>
             <strong>{{ item.nombre }}</strong>
-            <small>{{ item.descripcion }}</small>
+            <span>{{ item.descripcion }}</span>
           </td>
+
           <td>{{ item.categoria?.nombre || 'Sin categoría' }}</td>
           <td>S/ {{ item.precio }}</td>
           <td>{{ item.stock }}</td>
-          <td>
-            <button class="btn-edit" (click)="editar(item)">Editar</button>
-            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+
+          <td class="acciones-cell">
+            <button class="btn-edit" (click)="editar(item)">
+              Editar
+            </button>
+
+            <button class="btn-delete" (click)="eliminar(item.id)">
+              Eliminar
+            </button>
           </td>
         </tr>
         </tbody>
+
       </table>
     </div>
 

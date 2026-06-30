@@ -29,7 +29,15 @@
       <div class="cart-item" *ngFor="let item of items">
 
         <div class="item-image">
-          {{ item.producto.nombre.charAt(0) }}
+          <img
+            *ngIf="item.producto.imagenUrl"
+            [src]="item.producto.imagenUrl"
+            [alt]="item.producto.nombre"
+          >
+
+          <span *ngIf="!item.producto.imagenUrl">
+    {{ item.producto.nombre.charAt(0) }}
+  </span>
         </div>
 
         <div class="item-info">
@@ -39,9 +47,19 @@
         </div>
 
         <div class="quantity">
-          <button (click)="disminuir(item)">-</button>
+          <button
+            [disabled]="actualizandoId === item.id || item.cantidad <= 1"
+            (click)="disminuir(item)">
+            -
+          </button>
+
           <strong>{{ item.cantidad }}</strong>
-          <button (click)="aumentar(item)">+</button>
+
+          <button
+            [disabled]="actualizandoId === item.id"
+            (click)="aumentar(item)">
+            +
+          </button>
         </div>
 
         <div class="price">
@@ -49,8 +67,12 @@
           <strong>S/ {{ item.producto.precio * item.cantidad }}</strong>
         </div>
 
-        <button class="delete-btn" (click)="eliminar(item.id)">
-          Eliminar
+        <button
+          class="delete-btn"
+          [disabled]="eliminandoId === item.id"
+          (click)="eliminar(item.id)">
+
+          {{ eliminandoId === item.id ? 'Eliminando...' : 'Eliminar' }}
         </button>
 
       </div>
@@ -70,8 +92,11 @@
         <strong>S/ {{ total }}</strong>
       </div>
 
-      <button (click)="generarPedido()">
-        Generar pedido
+      <button
+        [disabled]="generandoPedido"
+        (click)="generarPedido()">
+
+        {{ generandoPedido ? 'Generando...' : 'Generar pedido' }}
       </button>
     </div>
 

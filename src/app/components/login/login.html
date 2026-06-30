@@ -42,8 +42,12 @@
           </small>
         </div>
 
-        <button class="btn btn-login w-100" type="submit">
-          Iniciar sesión
+        <button
+          class="btn btn-login w-100"
+          type="submit"
+          [disabled]="cargando">
+
+          {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
         </button>
       </form>
 

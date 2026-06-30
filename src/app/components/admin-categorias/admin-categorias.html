@@ -15,16 +15,39 @@
 
       <div class="form-group">
         <label>Nombre</label>
-        <input type="text" [(ngModel)]="categoria.nombre">
+        <input
+          type="text"
+          [(ngModel)]="categoria.nombre"
+          placeholder="Ejemplo: Laptops">
+
+        <small class="error-text" *ngIf="errores.nombre">
+          {{ errores.nombre }}
+        </small>
       </div>
 
       <div class="form-group">
         <label>Descripción</label>
-        <textarea [(ngModel)]="categoria.descripcion"></textarea>
+        <textarea
+          [(ngModel)]="categoria.descripcion"
+          placeholder="Describe brevemente la categoría"></textarea>
+
+        <small class="error-text" *ngIf="errores.descripcion">
+          {{ errores.descripcion }}
+        </small>
       </div>
 
-      <button class="btn-save" (click)="guardarCategoria()">
-        {{ editando ? 'Actualizar categoría' : 'Registrar categoría' }}
+      <button
+        class="btn-save"
+        [disabled]="guardando"
+        (click)="guardarCategoria()">
+
+        {{
+        guardando
+        ? 'Guardando...'
+        : editando
+        ? 'Actualizar categoría'
+        : 'Registrar categoría'
+        }}
       </button>
 
       <button class="btn-cancel" *ngIf="editando" (click)="limpiarFormulario()">
@@ -56,9 +79,14 @@
             <strong>{{ item.nombre }}</strong>
           </td>
           <td>{{ item.descripcion }}</td>
-          <td>
-            <button class="btn-edit" (click)="editar(item)">Editar</button>
-            <button class="btn-delete" (click)="eliminar(item.id)">Eliminar</button>
+          <td class="acciones-cell">
+            <button class="btn-edit" (click)="editar(item)">
+              Editar
+            </button>
+
+            <button class="btn-delete" (click)="eliminar(item.id)">
+              Eliminar
+            </button>
           </td>
         </tr>
         </tbody>
