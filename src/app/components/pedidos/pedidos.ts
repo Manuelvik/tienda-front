@@ -70,3 +70,4 @@ export class Pedidos implements OnInit {
     }, 2500);
   }
 }
+
