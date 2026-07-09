@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Carrito as CarritoService } from '../../services/carrito';
+import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+
+import { Carrito as CarritoService } from '../../services/carrito';
 import { Pedido } from '../../services/pedido';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-carrito',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './carrito.html',
   styleUrl: './carrito.css',
 })
@@ -19,6 +24,25 @@ export class Carrito implements OnInit {
   generandoPedido = false;
   actualizandoId: number | null = null;
   eliminandoId: number | null = null;
+
+  datosCompra = {
+    nombreCompleto: '',
+    dni: '',
+    telefono: '',
+    direccion: '',
+    distrito: '',
+    metodoPago: '',
+    observacion: '',
+  };
+
+  erroresCompra = {
+    nombreCompleto: '',
+    dni: '',
+    telefono: '',
+    direccion: '',
+    distrito: '',
+    metodoPago: '',
+  };
 
   constructor(
     private carritoService: CarritoService,
@@ -146,6 +170,58 @@ export class Carrito implements OnInit {
     }, 2500);
   }
 
+  validarDatosCompra(): boolean {
+    this.erroresCompra = {
+      nombreCompleto: '',
+      dni: '',
+      telefono: '',
+      direccion: '',
+      distrito: '',
+      metodoPago: '',
+    };
+
+    let valido = true;
+
+    if (!this.datosCompra.nombreCompleto.trim()) {
+      this.erroresCompra.nombreCompleto = 'El nombre completo es obligatorio';
+      valido = false;
+    }
+
+    if (!this.datosCompra.dni.trim()) {
+      this.erroresCompra.dni = 'El DNI es obligatorio';
+      valido = false;
+    } else if (this.datosCompra.dni.length !== 8) {
+      this.erroresCompra.dni = 'El DNI debe tener 8 dígitos';
+      valido = false;
+    }
+
+    if (!this.datosCompra.telefono.trim()) {
+      this.erroresCompra.telefono = 'El teléfono es obligatorio';
+      valido = false;
+    } else if (this.datosCompra.telefono.length < 9) {
+      this.erroresCompra.telefono = 'Ingrese un teléfono válido';
+      valido = false;
+    }
+
+    if (!this.datosCompra.direccion.trim()) {
+      this.erroresCompra.direccion = 'La dirección es obligatoria';
+      valido = false;
+    }
+
+    if (!this.datosCompra.distrito.trim()) {
+      this.erroresCompra.distrito = 'El distrito o ciudad es obligatorio';
+      valido = false;
+    }
+
+    if (!this.datosCompra.metodoPago) {
+      this.erroresCompra.metodoPago = 'Seleccione un método de pago';
+      valido = false;
+    }
+
+    this.cdr.detectChanges();
+    return valido;
+  }
+
   generarPedido(): void {
     if (this.generandoPedido) {
       return;
@@ -153,6 +229,11 @@ export class Carrito implements OnInit {
 
     if (this.total <= 0 || this.items.length === 0) {
       this.mostrarToast('El carrito está vacío');
+      return;
+    }
+
+    if (!this.validarDatosCompra()) {
+      this.mostrarToast('Complete los datos de compra');
       return;
     }
 
@@ -166,13 +247,23 @@ export class Carrito implements OnInit {
     const data = {
       total: this.total,
       usuarioId: usuarioId,
+      nombreCliente: this.datosCompra.nombreCompleto,
+      dni: this.datosCompra.dni,
+      telefono: this.datosCompra.telefono,
+      direccion: this.datosCompra.direccion,
+      distrito: this.datosCompra.distrito,
+      metodoPago: this.datosCompra.metodoPago,
+      observacion: this.datosCompra.observacion,
     };
 
-    this.generandoPedido = true;
+    // this.generandoPedido = true;
 
     this.pedidoService.crear(data).subscribe({
-      next: () => {
-        this.mostrarToast('Pedido generado correctamente');
+      next: (pedidoCreado) => {
+        this.mostrarToast('Pedido generado. Espere confirmación del administrador');
+        this.limpiarDatosCompra();
+
+
         this.generandoPedido = false;
         this.cargarCarrito();
         this.cdr.detectChanges();
@@ -183,5 +274,79 @@ export class Carrito implements OnInit {
         this.cdr.detectChanges();
       },
     });
+  }
+
+  limpiarDatosCompra(): void {
+    this.datosCompra = {
+      nombreCompleto: '',
+      dni: '',
+      telefono: '',
+      direccion: '',
+      distrito: '',
+      metodoPago: '',
+      observacion: '',
+    };
+
+    this.erroresCompra = {
+      nombreCompleto: '',
+      dni: '',
+      telefono: '',
+      direccion: '',
+      distrito: '',
+      metodoPago: '',
+    };
+  }
+  generarPDF(pedido: any): void {
+    const doc = new jsPDF();
+
+    const fecha = new Date().toLocaleString();
+
+    doc.setFontSize(18);
+    doc.text('CyberStore', 14, 18);
+
+    doc.setFontSize(13);
+    doc.text('Comprobante de compra', 14, 28);
+
+    doc.setFontSize(10);
+    doc.text(`Fecha: ${fecha}`, 14, 38);
+    doc.text(`Pedido N°: ${pedido?.id || 'Generado'}`, 14, 44);
+
+    doc.setFontSize(12);
+    doc.text('Datos del cliente', 14, 58);
+
+    doc.setFontSize(10);
+    doc.text(`Nombre: ${this.datosCompra.nombreCompleto}`, 14, 68);
+    doc.text(`DNI: ${this.datosCompra.dni}`, 14, 74);
+    doc.text(`Teléfono: ${this.datosCompra.telefono}`, 14, 80);
+    doc.text(`Dirección: ${this.datosCompra.direccion}`, 14, 86);
+    doc.text(`Distrito/Ciudad: ${this.datosCompra.distrito}`, 14, 92);
+    doc.text(`Método de pago: ${this.datosCompra.metodoPago}`, 14, 98);
+
+    if (this.datosCompra.observacion.trim()) {
+      doc.text(`Observación: ${this.datosCompra.observacion}`, 14, 104);
+    }
+
+    const productos = this.items.map((item) => [
+      item.producto.nombre,
+      item.cantidad,
+      `S/ ${item.producto.precio}`,
+      `S/ ${item.producto.precio * item.cantidad}`,
+    ]);
+
+    autoTable(doc, {
+      startY: this.datosCompra.observacion.trim() ? 114 : 108,
+      head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+      body: productos,
+    });
+
+    const finalY = (doc as any).lastAutoTable.finalY || 130;
+
+    doc.setFontSize(12);
+    doc.text(`Total: S/ ${this.total}`, 14, finalY + 14);
+
+    doc.setFontSize(10);
+    doc.text('Gracias por su compra en CyberStore.', 14, finalY + 26);
+
+    doc.save(`comprobante-cyberstore-${pedido?.id || 'pedido'}.pdf`);
   }
 }

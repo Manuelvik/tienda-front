@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Pedido } from '../../services/pedido';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-pedidos',
@@ -58,6 +60,74 @@ export class Pedidos implements OnInit {
     if (estado === 'COMPLETADO') return 'estado-completado';
     if (estado === 'CANCELADO') return 'estado-cancelado';
     return 'estado-pendiente';
+  }
+
+  puedeDescargarPDF(pedido: any): boolean {
+    return pedido.estado === 'COMPLETADO';
+  }
+
+  generarPDF(pedido: any): void {
+    if (!this.puedeDescargarPDF(pedido)) {
+      this.mostrarToast('El comprobante estará disponible cuando el pedido sea completado');
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    const fechaPedido = pedido.fecha
+      ? new Date(pedido.fecha).toLocaleString()
+      : new Date().toLocaleString();
+
+    doc.setFontSize(20);
+    doc.text('CyberStore', 14, 18);
+
+    doc.setFontSize(13);
+    doc.text('Comprobante de compra', 14, 28);
+
+    doc.setFontSize(10);
+    doc.text(`Pedido N°: ${pedido.id}`, 14, 40);
+    doc.text(`Fecha del pedido: ${fechaPedido}`, 14, 46);
+    doc.text(`Estado: ${pedido.estado}`, 14, 52);
+
+    doc.setFontSize(12);
+    doc.text('Datos del cliente', 14, 66);
+
+    doc.setFontSize(10);
+    doc.text(`Nombre: ${pedido.nombreCliente || 'No registrado'}`, 14, 76);
+    doc.text(`DNI: ${pedido.dni || 'No registrado'}`, 14, 82);
+    doc.text(`Teléfono: ${pedido.telefono || 'No registrado'}`, 14, 88);
+    doc.text(`Dirección: ${pedido.direccion || 'No registrado'}`, 14, 94);
+    doc.text(`Distrito/Ciudad: ${pedido.distrito || 'No registrado'}`, 14, 100);
+    doc.text(`Método de pago: ${pedido.metodoPago || 'No registrado'}`, 14, 106);
+
+    if (pedido.observacion) {
+      doc.text(`Observación: ${pedido.observacion}`, 14, 112);
+    }
+
+    autoTable(doc, {
+      startY: pedido.observacion ? 124 : 118,
+      head: [['Concepto', 'Detalle']],
+      body: [
+        ['Pedido', `#${pedido.id}`],
+        ['Estado', pedido.estado],
+        ['Total pagado', `S/ ${pedido.total}`],
+      ],
+    });
+
+    const finalY = (doc as any).lastAutoTable.finalY || 145;
+
+    doc.setFontSize(12);
+    doc.text(`Total: S/ ${pedido.total}`, 14, finalY + 14);
+
+    doc.setFontSize(10);
+    doc.text(
+      'Este comprobante fue generado luego de la confirmación del administrador.',
+      14,
+      finalY + 26,
+    );
+    doc.text('Gracias por su compra en CyberStore.', 14, finalY + 34);
+
+    doc.save(`comprobante-cyberstore-pedido-${pedido.id}.pdf`);
   }
 
   mostrarToast(texto: string): void {

@@ -219,4 +219,57 @@
     width: 100%;
   }
 }
+.cliente-info {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+}
 
+.cliente-info h4 {
+  margin: 0 0 12px;
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.cliente-info p {
+  margin: 7px 0;
+  color: #475569;
+  font-size: 14px;
+}
+
+.cliente-info strong {
+  color: #0f172a;
+}
+
+.pedido-status-message {
+  margin-bottom: 16px;
+}
+
+.btn-pdf,
+.btn-pdf-disabled {
+  width: 100%;
+  border: none;
+  padding: 13px;
+  border-radius: 15px;
+  font-weight: 900;
+  transition: all 0.2s ease;
+}
+
+.btn-pdf {
+  background: #16a34a;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-pdf:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+
+.btn-pdf-disabled {
+  background: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}

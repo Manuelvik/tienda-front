@@ -53,18 +53,47 @@
         </div>
       </div>
 
+      <div class="cliente-info">
+        <h4>Datos de entrega</h4>
+
+        <p><strong>Cliente:</strong> {{ pedido.nombreCliente || 'No registrado' }}</p>
+        <p><strong>DNI:</strong> {{ pedido.dni || 'No registrado' }}</p>
+        <p><strong>Teléfono:</strong> {{ pedido.telefono || 'No registrado' }}</p>
+        <p><strong>Dirección:</strong> {{ pedido.direccion || 'No registrado' }}</p>
+        <p><strong>Distrito/Ciudad:</strong> {{ pedido.distrito || 'No registrado' }}</p>
+        <p><strong>Método de pago:</strong> {{ pedido.metodoPago || 'No registrado' }}</p>
+
+        <p *ngIf="pedido.observacion">
+          <strong>Observación:</strong> {{ pedido.observacion }}
+        </p>
+      </div>
+
       <div class="pedido-status-message">
         <strong>Estado actual:</strong>
         <span>
-          {{
-            pedido.estado === 'COMPLETADO'
-              ? 'Tu pedido fue completado correctamente.'
-              : pedido.estado === 'CANCELADO'
-                ? 'Tu pedido fue cancelado.'
-                : 'Tu pedido está pendiente de atención.'
-          }}
-        </span>
+    {{
+      pedido.estado === 'COMPLETADO'
+        ? 'Tu pedido fue completado correctamente. Ya puedes descargar tu comprobante.'
+        : pedido.estado === 'CANCELADO'
+          ? 'Tu pedido fue cancelado. No se puede generar comprobante.'
+          : 'Tu pedido está pendiente de confirmación por el administrador.'
+    }}
+  </span>
       </div>
+
+      <button
+        class="btn-pdf"
+        *ngIf="pedido.estado === 'COMPLETADO'"
+        (click)="generarPDF(pedido)">
+        Descargar comprobante PDF
+      </button>
+
+      <button
+        class="btn-pdf-disabled"
+        *ngIf="pedido.estado === 'PENDIENTE'"
+        disabled>
+        Comprobante pendiente
+      </button>
 
     </div>
 

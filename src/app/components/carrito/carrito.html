@@ -92,6 +92,94 @@
         <strong>S/ {{ total }}</strong>
       </div>
 
+      <div class="checkout-form">
+        <h4>Datos de compra</h4>
+
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input
+            type="text"
+            [(ngModel)]="datosCompra.nombreCompleto"
+            placeholder="Ingrese su nombre completo">
+
+          <small class="error-text" *ngIf="erroresCompra.nombreCompleto">
+            {{ erroresCompra.nombreCompleto }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>DNI</label>
+          <input
+            type="text"
+            maxlength="8"
+            [(ngModel)]="datosCompra.dni"
+            placeholder="Ingrese su DNI">
+
+          <small class="error-text" *ngIf="erroresCompra.dni">
+            {{ erroresCompra.dni }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input
+            type="text"
+            maxlength="9"
+            [(ngModel)]="datosCompra.telefono"
+            placeholder="Ingrese su teléfono">
+
+          <small class="error-text" *ngIf="erroresCompra.telefono">
+            {{ erroresCompra.telefono }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección</label>
+          <input
+            type="text"
+            [(ngModel)]="datosCompra.direccion"
+            placeholder="Ingrese dirección de entrega">
+
+          <small class="error-text" *ngIf="erroresCompra.direccion">
+            {{ erroresCompra.direccion }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Distrito / Ciudad</label>
+          <input
+            type="text"
+            [(ngModel)]="datosCompra.distrito"
+            placeholder="Ejemplo: Lima">
+
+          <small class="error-text" *ngIf="erroresCompra.distrito">
+            {{ erroresCompra.distrito }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Método de pago</label>
+          <select [(ngModel)]="datosCompra.metodoPago">
+            <option value="">Seleccione método</option>
+            <option value="Yape">Yape</option>
+            <option value="Plin">Plin</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Efectivo contra entrega">Efectivo contra entrega</option>
+          </select>
+
+          <small class="error-text" *ngIf="erroresCompra.metodoPago">
+            {{ erroresCompra.metodoPago }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Observación</label>
+          <textarea
+            [(ngModel)]="datosCompra.observacion"
+            placeholder="Referencia o comentario adicional"></textarea>
+        </div>
+      </div>
+
       <button
         [disabled]="generandoPedido"
         (click)="generarPedido()">
