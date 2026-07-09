@@ -64,10 +64,7 @@
       <div class="preview-imagen" *ngIf="producto.imagenUrl">
         <p>Vista previa:</p>
 
-        <img
-          [src]="producto.imagenUrl"
-          alt="Vista previa del producto"
-        >
+        <img [src]="obtenerImagen(producto.imagenUrl)" alt="Producto">
       </div>
 
       <div class="form-group">
@@ -123,7 +120,7 @@
 
           <td>
             <img
-              [src]="item.imagenUrl || 'assets/productos/default.png'"
+              [src]="obtenerImagen(item.imagenUrl)"
               [alt]="item.nombre"
               class="admin-product-img"
             >

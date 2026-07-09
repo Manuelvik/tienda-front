@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Reporte {
-  private apiUrl = 'http://localhost:8080/reportes';
+  private apiUrl = 'https://tienda-production-856f.up.railway.app/reportes';
 
   constructor(private http: HttpClient) {}
 

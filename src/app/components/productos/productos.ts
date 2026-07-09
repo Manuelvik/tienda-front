@@ -78,6 +78,20 @@ export class Productos implements OnInit {
     });
   }
 
+  apiBaseUrl = 'https://tienda-production-856f.up.railway.app';
+
+  obtenerImagen(imagenUrl: string): string {
+    if (!imagenUrl) {
+      return 'assets/productos/default.png';
+    }
+
+    if (imagenUrl.startsWith('http')) {
+      return imagenUrl;
+    }
+
+    return this.apiBaseUrl + imagenUrl;
+  }
+
   mostrarToast(texto: string): void {
     this.toast = texto;
     this.cdr.detectChanges();

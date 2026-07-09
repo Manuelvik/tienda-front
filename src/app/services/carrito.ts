@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Carrito {
-  private apiUrl = 'http://localhost:8080/carrito';
+  private apiUrl = 'https://tienda-production-856f.up.railway.app/carrito';
 
   constructor(private http: HttpClient) {}
 

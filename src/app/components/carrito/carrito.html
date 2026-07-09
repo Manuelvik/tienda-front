@@ -31,7 +31,7 @@
         <div class="item-image">
           <img
             *ngIf="item.producto.imagenUrl"
-            [src]="item.producto.imagenUrl"
+            [src]="obtenerImagen(item.producto.imagenUrl)"
             [alt]="item.producto.nombre"
           >
 

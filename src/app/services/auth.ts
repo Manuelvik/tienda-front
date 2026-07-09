@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = 'http://localhost:8080/auth';
+  private apiUrl = 'https://tienda-production-856f.up.railway.app/auth';
 
   constructor(private http: HttpClient) {}
 

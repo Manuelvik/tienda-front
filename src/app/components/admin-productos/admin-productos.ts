@@ -109,20 +109,24 @@ export class AdminProductos implements OnInit {
     this.subiendoImagen = true;
     this.mostrarToast('Subiendo imagen...');
 
-    this.http.post<any>('http://localhost:8080/productos/imagen', formData, { headers }).subscribe({
-      next: (resp) => {
-        this.producto.imagenUrl = resp.imagenUrl;
-        this.subiendoImagen = false;
-        this.mostrarToast('Imagen subida correctamente');
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error al subir imagen:', error);
-        this.subiendoImagen = false;
-        this.mostrarToast('No se pudo subir la imagen');
-        this.cdr.detectChanges();
-      },
-    });
+    this.http
+      .post<any>('https://tienda-production-856f.up.railway.app/productos/imagen', formData, {
+        headers,
+      })
+      .subscribe({
+        next: (resp) => {
+          this.producto.imagenUrl = resp.imagenUrl;
+          this.subiendoImagen = false;
+          this.mostrarToast('Imagen subida correctamente');
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Error al subir imagen:', error);
+          this.subiendoImagen = false;
+          this.mostrarToast('No se pudo subir la imagen');
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   guardarProducto(): void {
@@ -199,6 +203,20 @@ export class AdminProductos implements OnInit {
     };
 
     this.cdr.detectChanges();
+  }
+
+  apiBaseUrl = 'https://tienda-production-856f.up.railway.app';
+
+  obtenerImagen(imagenUrl: string): string {
+    if (!imagenUrl) {
+      return 'assets/productos/default.png';
+    }
+
+    if (imagenUrl.startsWith('http')) {
+      return imagenUrl;
+    }
+
+    return this.apiBaseUrl + imagenUrl;
   }
 
   mostrarToast(texto: string): void {
