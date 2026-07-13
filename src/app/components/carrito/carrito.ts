@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { forkJoin } from 'rxjs';
 import { Carrito as CarritoService } from '../../services/carrito';
 import { Pedido } from '../../services/pedido';
 
@@ -236,6 +236,25 @@ export class Carrito implements OnInit {
     return valido;
   }
 
+  vaciarCarrito(): void {
+    if (this.items.length === 0) {
+      return;
+    }
+
+    const eliminaciones = this.items.map((item) => this.carritoService.eliminar(item.id));
+
+    forkJoin(eliminaciones).subscribe({
+      next: () => {
+        this.items = [];
+        this.total = 0;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.mostrarToast('El pedido se generó, pero no se pudo limpiar el carrito');
+      },
+    });
+  }
+
   generarPedido(): void {
     if (this.generandoPedido) {
       return;
@@ -273,13 +292,13 @@ export class Carrito implements OnInit {
     // this.generandoPedido = true;
 
     this.pedidoService.crear(data).subscribe({
-      next: (pedidoCreado) => {
+      next: () => {
         this.mostrarToast('Pedido generado. Espere confirmación del administrador');
-        this.limpiarDatosCompra();
 
+        this.limpiarDatosCompra();
+        this.vaciarCarrito();
 
         this.generandoPedido = false;
-        this.cargarCarrito();
         this.cdr.detectChanges();
       },
       error: () => {

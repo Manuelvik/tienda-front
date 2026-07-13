@@ -92,6 +92,21 @@
         <strong>S/ {{ total }}</strong>
       </div>
 
+      <div class="cart-actions-extra">
+        <a routerLink="/productos">
+          Seguir comprando
+        </a>
+
+        <a routerLink="/pedidos">
+          Ver mis pedidos
+        </a>
+      </div>
+
+      <div class="cart-note">
+        <strong>Importante:</strong>
+        Revisa tus datos antes de generar el pedido. El administrador confirmará el estado de tu compra.
+      </div>
+
       <div class="checkout-form">
         <h4>Datos de compra</h4>
 
@@ -181,10 +196,11 @@
       </div>
 
       <button
+        class="btn-generar-pedido"
         [disabled]="generandoPedido"
         (click)="generarPedido()">
 
-        {{ generandoPedido ? 'Generando...' : 'Generar pedido' }}
+        {{ generandoPedido ? 'Generando pedido...' : 'Generar pedido' }}
       </button>
     </div>
 
