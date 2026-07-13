@@ -1,0 +1,83 @@
+<div class="detalle-page">
+
+  <button class="btn-back" (click)="volver()">
+    ← Volver al catálogo
+  </button>
+
+  <div class="loading" *ngIf="cargando">
+    Cargando producto...
+  </div>
+
+  <div class="alert" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="detalle-card" *ngIf="!cargando && producto">
+
+    <div class="detalle-imagen">
+      <img
+        [src]="obtenerImagen(producto.imagenUrl)"
+        [alt]="producto.nombre"
+      >
+    </div>
+
+    <div class="detalle-info">
+      <span class="categoria">
+        {{ producto.categoria?.nombre || 'Sin categoría' }}
+      </span>
+
+      <h1>{{ producto.nombre }}</h1>
+
+      <p class="descripcion">
+        {{ producto.descripcion }}
+      </p>
+
+      <div class="estado-stock" [ngClass]="stockClase(producto.stock)">
+        Stock disponible: {{ producto.stock }}
+      </div>
+
+      <div class="precio-box">
+        <small>Precio del producto</small>
+        <strong>S/ {{ producto.precio }}</strong>
+      </div>
+
+      <div class="beneficios">
+        <div>
+          <strong>Compra segura</strong>
+          <span>Producto registrado en CyberStore</span>
+        </div>
+
+        <div>
+          <strong>Entrega coordinada</strong>
+          <span>El pedido será validado por el administrador</span>
+        </div>
+
+        <div>
+          <strong>Comprobante PDF</strong>
+          <span>Disponible cuando el pedido sea completado</span>
+        </div>
+      </div>
+
+      <div class="acciones">
+        <button
+          class="btn-cart"
+          [disabled]="producto.stock <= 0"
+          (click)="agregarCarrito()">
+
+          {{ producto.stock <= 0 ? 'Producto sin stock' : 'Agregar al carrito' }}
+        </button>
+
+        <button class="btn-secondary" (click)="irCarrito()">
+          Ir al carrito
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

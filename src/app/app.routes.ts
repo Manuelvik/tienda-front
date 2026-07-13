@@ -5,6 +5,7 @@ import { Register } from './components/register/register';
 import { Layout } from './components/layout/layout';
 import { Dashboard } from './components/dashboard/dashboard';
 import { Productos } from './components/productos/productos';
+import { ProductoDetalle } from './components/producto-detalle/producto-detalle';
 import { Carrito } from './components/carrito/carrito';
 import { Pedidos } from './components/pedidos/pedidos';
 import { AdminDashboard } from './components/admin-dashboard/admin-dashboard';
@@ -38,6 +39,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'productos', component: Productos },
+      { path: 'productos/:id', component: ProductoDetalle },
       { path: 'carrito', component: Carrito },
       { path: 'pedidos', component: Pedidos },
 

@@ -1,72 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { Producto } from '../../services/producto';
 import { Carrito } from '../../services/carrito';
-import { ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-productos',
-  imports: [CommonModule, FormsModule],
-  templateUrl: './productos.html',
-  styleUrl: './productos.css',
+  selector: 'app-producto-detalle',
+  imports: [CommonModule],
+  templateUrl: './producto-detalle.html',
+  styleUrl: './producto-detalle.css',
 })
-export class Productos implements OnInit {
-  productos: any[] = [];
-  productosFiltrados: any[] = [];
-
-  busqueda = '';
-  mensaje = '';
+export class ProductoDetalle implements OnInit {
+  producto: any = null;
   cargando = true;
+  mensaje = '';
   toast = '';
 
+  apiBaseUrl = 'https://tienda-production-856f.up.railway.app';
+
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private productoService: Producto,
     private carritoService: Carrito,
     private cdr: ChangeDetectorRef,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.cargarProductos();
+    this.cargarProducto();
   }
 
-  cargarProductos(): void {
-    this.cargando = true;
+  cargarProducto(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.productoService.listar().subscribe({
+    if (!id) {
+      this.mensaje = 'Producto no encontrado';
+      this.cargando = false;
+      return;
+    }
+
+    this.productoService.buscarPorId(id).subscribe({
       next: (data) => {
-        this.productos = data;
-        this.productosFiltrados = data;
+        this.producto = data;
         this.cargando = false;
         this.cdr.detectChanges();
       },
       error: () => {
-        this.mensaje = 'No se pudieron cargar los productos';
+        this.mensaje = 'No se pudo cargar el detalle del producto';
         this.cargando = false;
+        this.cdr.detectChanges();
       },
     });
   }
 
-  filtrarProductos(): void {
-    const texto = this.busqueda.toLowerCase().trim();
+  agregarCarrito(): void {
+    if (!this.producto) {
+      return;
+    }
 
-    this.productosFiltrados = this.productos.filter(
-      (producto) =>
-        producto.nombre.toLowerCase().includes(texto) ||
-        producto.descripcion.toLowerCase().includes(texto) ||
-        (producto.categoria?.nombre || '').toLowerCase().includes(texto),
-    );
-  }
-
-  agregarCarrito(productoId: number): void {
     const usuarioId = Number(localStorage.getItem('usuarioId'));
 
     const data = {
       cantidad: 1,
       usuarioId: usuarioId,
-      productoId: productoId,
+      productoId: this.producto.id,
     };
 
     this.carritoService.agregar(data).subscribe({
@@ -80,12 +78,6 @@ export class Productos implements OnInit {
     });
   }
 
-  verDetalle(productoId: number): void {
-    this.router.navigate(['/productos', productoId]);
-  }
-
-  apiBaseUrl = 'https://tienda-production-856f.up.railway.app';
-
   obtenerImagen(imagenUrl: string): string {
     if (!imagenUrl) {
       return 'assets/productos/default.png';
@@ -96,6 +88,14 @@ export class Productos implements OnInit {
     }
 
     return this.apiBaseUrl + imagenUrl;
+  }
+
+  volver(): void {
+    this.router.navigate(['/productos']);
+  }
+
+  irCarrito(): void {
+    this.router.navigate(['/carrito']);
   }
 
   mostrarToast(texto: string): void {

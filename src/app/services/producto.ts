@@ -25,6 +25,12 @@ export class Producto {
     });
   }
 
+  buscarPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, {
+      headers: this.headers(),
+    });
+  }
+
   guardar(data: any): Observable<any> {
     return this.http.post(this.apiUrl, data, {
       headers: this.headers(),
