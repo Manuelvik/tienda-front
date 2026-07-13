@@ -94,6 +94,7 @@
 }
 
 .producto-card {
+  position: relative;
   background: #ffffff;
   border-radius: 26px;
   overflow: hidden;

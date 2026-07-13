@@ -19,7 +19,7 @@ import { adminGuard } from './guards/admin-guard';
 import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
 
   {
     path: 'login',
@@ -35,38 +35,39 @@ export const routes: Routes = [
   {
     path: '',
     component: Layout,
-    canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: Dashboard },
+      { path: 'inicio', component: Dashboard },
+
       { path: 'productos', component: Productos },
       { path: 'productos/:id', component: ProductoDetalle },
-      { path: 'carrito', component: Carrito },
-      { path: 'pedidos', component: Pedidos },
+
+      { path: 'carrito', component: Carrito, canActivate: [authGuard] },
+      { path: 'pedidos', component: Pedidos, canActivate: [authGuard] },
 
       {
         path: 'admin/dashboard',
         component: AdminDashboard,
-        canActivate: [adminGuard],
+        canActivate: [authGuard, adminGuard],
       },
       {
         path: 'admin/productos',
         component: AdminProductos,
-        canActivate: [adminGuard],
+        canActivate: [authGuard, adminGuard],
       },
       {
         path: 'admin/categorias',
         component: AdminCategorias,
-        canActivate: [adminGuard],
+        canActivate: [authGuard, adminGuard],
       },
       {
         path: 'admin/usuarios',
         component: AdminUsuarios,
-        canActivate: [adminGuard],
+        canActivate: [authGuard, adminGuard],
       },
       {
         path: 'admin/pedidos',
         component: AdminPedidos,
-        canActivate: [adminGuard],
+        canActivate: [authGuard, adminGuard],
       },
     ],
   },

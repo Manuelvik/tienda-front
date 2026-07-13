@@ -5,21 +5,15 @@
       <span class="logo">CS</span>
       <div>
         <h3>CyberStore</h3>
-        <small>Panel {{ rol }}</small>
+        <small>
+          {{ estaLogueado() ? ('Panel ' + rol) : 'Tienda online' }}
+        </small>
       </div>
     </div>
 
     <nav class="menu">
 
-      <a
-        *ngIf="esUser()"
-        routerLink="/dashboard">
-        Inicio
-      </a>
-
-      <a
-        *ngIf="esAdmin()"
-        routerLink="/admin/dashboard">
+      <a routerLink="/inicio">
         Inicio
       </a>
 
@@ -37,6 +31,12 @@
         *ngIf="esUser()"
         routerLink="/pedidos">
         Mis pedidos
+      </a>
+
+      <a
+        *ngIf="esAdmin()"
+        routerLink="/admin/dashboard">
+        Panel Admin
       </a>
 
       <a
@@ -63,12 +63,6 @@
         Gestión de pedidos
       </a>
 
-      <a
-        *ngIf="esAdmin()"
-        routerLink="/admin/dashboard">
-        Panel Admin
-      </a>
-
     </nav>
   </aside>
 
@@ -82,8 +76,25 @@
       </div>
 
       <div class="top-actions">
-        <span class="role-badge">{{ rol }}</span>
-        <button (click)="logout()">Cerrar sesión</button>
+
+        <span class="role-badge" *ngIf="estaLogueado()">
+          {{ rol }}
+        </span>
+
+        <button
+          class="btn-login"
+          *ngIf="!estaLogueado()"
+          (click)="irLogin()">
+          Iniciar sesión
+        </button>
+
+        <button
+          class="btn-logout"
+          *ngIf="estaLogueado()"
+          (click)="logout()">
+          Cerrar sesión
+        </button>
+
       </div>
     </header>
 

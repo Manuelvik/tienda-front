@@ -29,4 +29,11 @@ export class Layout {
     this.authService.cerrarSesion();
     this.router.navigate(['/login']);
   }
+  estaLogueado(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  irLogin(): void {
+    this.router.navigate(['/login']);
+  }
 }

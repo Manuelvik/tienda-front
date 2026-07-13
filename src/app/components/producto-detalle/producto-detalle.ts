@@ -59,6 +59,18 @@ export class ProductoDetalle implements OnInit {
       return;
     }
 
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.mostrarToast('Inicia sesión para agregar productos al carrito');
+
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 1200);
+
+      return;
+    }
+
     const usuarioId = Number(localStorage.getItem('usuarioId'));
 
     const data = {
