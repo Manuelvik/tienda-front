@@ -1,0 +1,100 @@
+<div class="pedido-detalle-page">
+
+  <button class="btn-back" (click)="volver()">
+    ← Volver a mis pedidos
+  </button>
+
+  <div class="loader" *ngIf="cargando">
+    Cargando detalle del pedido...
+  </div>
+
+  <div class="alert" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+
+  <div class="detalle-card" *ngIf="!cargando && pedido">
+
+    <div class="detalle-header">
+      <div>
+        <span class="section-badge">Detalle del pedido</span>
+        <h1>Pedido N° {{ pedido.id }}</h1>
+        <p>
+          Fecha:
+          {{ pedido.fecha ? (pedido.fecha | date:'dd/MM/yyyy HH:mm') : 'No registrada' }}
+        </p>
+      </div>
+
+      <span class="estado-badge" [ngClass]="estadoClase(pedido.estado)">
+        {{ estadoTexto(pedido.estado) }}
+      </span>
+    </div>
+
+    <div class="detalle-grid">
+
+      <div class="info-box">
+        <h3>Datos del cliente</h3>
+
+        <p><strong>Nombre:</strong> {{ pedido.nombreCliente || 'No registrado' }}</p>
+        <p><strong>DNI:</strong> {{ pedido.dni || 'No registrado' }}</p>
+        <p><strong>Teléfono:</strong> {{ pedido.telefono || 'No registrado' }}</p>
+      </div>
+
+      <div class="info-box">
+        <h3>Entrega</h3>
+
+        <p><strong>Dirección:</strong> {{ pedido.direccion || 'No registrada' }}</p>
+        <p><strong>Distrito/Ciudad:</strong> {{ pedido.distrito || 'No registrado' }}</p>
+        <p><strong>Observación:</strong> {{ pedido.observacion || 'Sin observación' }}</p>
+      </div>
+
+      <div class="info-box">
+        <h3>Pago</h3>
+
+        <p><strong>Método:</strong> {{ pedido.metodoPago || 'No registrado' }}</p>
+        <p><strong>Total:</strong> S/ {{ pedido.total }}</p>
+      </div>
+
+      <div class="info-box">
+        <h3>Estado de compra</h3>
+
+        <p>
+          {{
+          pedido.estado === 'PENDIENTE'
+          ? 'Tu pedido fue registrado y está pendiente de revisión.'
+          : pedido.estado === 'CONFIRMADO'
+          ? 'Tu pedido fue confirmado por el administrador.'
+          : pedido.estado === 'EN_PREPARACION'
+          ? 'Tu pedido está siendo preparado.'
+          : pedido.estado === 'EN_CAMINO'
+          ? 'Tu pedido está en camino.'
+          : pedido.estado === 'ENTREGADO' || pedido.estado === 'COMPLETADO'
+          ? 'Tu pedido fue entregado o completado correctamente.'
+          : pedido.estado === 'CANCELADO'
+          ? 'Tu pedido fue cancelado.'
+          : 'Estado del pedido no disponible.'
+          }}
+        </p>
+      </div>
+
+    </div>
+
+    <div class="detalle-actions">
+      <button class="btn-secondary" (click)="volver()">
+        Volver
+      </button>
+
+      <button
+        class="btn-pdf"
+        [disabled]="!puedeDescargarPDF()"
+        (click)="generarPDF()">
+        {{ puedeDescargarPDF() ? 'Descargar comprobante PDF' : 'Comprobante pendiente' }}
+      </button>
+    </div>
+
+  </div>
+
+  <div class="toast-custom" *ngIf="toast">
+    {{ toast }}
+  </div>
+
+</div>

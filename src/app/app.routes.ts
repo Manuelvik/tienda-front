@@ -17,6 +17,7 @@ import { AdminPedidos } from './components/admin-pedidos/admin-pedidos';
 import { authGuard } from './guards/auth-guard';
 import { adminGuard } from './guards/admin-guard';
 import { guestGuard } from './guards/guest-guard';
+import { PedidoDetalle } from './components/pedido-detalle/pedido-detalle';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -43,6 +44,7 @@ export const routes: Routes = [
 
       { path: 'carrito', component: Carrito, canActivate: [authGuard] },
       { path: 'pedidos', component: Pedidos, canActivate: [authGuard] },
+      { path: 'pedidos/:id', component: PedidoDetalle, canActivate: [authGuard] },
 
       {
         path: 'admin/dashboard',

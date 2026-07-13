@@ -81,6 +81,12 @@
   </span>
       </div>
 
+      <button class="btn-detalle" (click)="verDetalle(pedido.id)">
+        Ver detalle
+      </button>
+
+      
+
       <button
         class="btn-pdf"
         *ngIf="pedido.estado === 'COMPLETADO'"

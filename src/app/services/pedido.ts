@@ -64,4 +64,9 @@ export class Pedido {
       },
     );
   }
+  buscarPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, {
+      headers: this.headers(),
+    });
+  }
 }

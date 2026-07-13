@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Pedido } from '../../services/pedido';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pedidos',
@@ -19,6 +20,7 @@ export class Pedidos implements OnInit {
   constructor(
     private pedidoService: Pedido,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -128,6 +130,10 @@ export class Pedidos implements OnInit {
     doc.text('Gracias por su compra en CyberStore.', 14, finalY + 34);
 
     doc.save(`comprobante-cyberstore-pedido-${pedido.id}.pdf`);
+  }
+
+  verDetalle(id: number): void {
+    this.router.navigate(['/pedidos', id]);
   }
 
   mostrarToast(texto: string): void {
