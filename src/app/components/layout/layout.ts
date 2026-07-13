@@ -27,7 +27,7 @@ export class Layout {
 
   logout(): void {
     this.authService.cerrarSesion();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/inicio']);
   }
   estaLogueado(): boolean {
     return !!localStorage.getItem('token');
