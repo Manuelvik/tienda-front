@@ -1,43 +1,133 @@
-<div class="dashboard-page">
+<div class="inicio-page">
 
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="hero-badge">CyberStore</span>
 
+      <h1>Encuentra productos tecnológicos para tu día a día</h1>
 
-  <section class="hero">
-    <div class="hero-text">
-      <span class="badge">Nueva temporada gamer</span>
-      <h1>Equipa tu mundo tecnológico</h1>
       <p>
-        Encuentra laptops, tarjetas gráficas, monitores y accesorios para llevar tu experiencia al siguiente nivel.
+        Explora laptops, accesorios, componentes y dispositivos tecnológicos.
+        Revisa los detalles del producto, agrégalo al carrito y genera tu pedido
+        de forma rápida y segura.
       </p>
 
       <div class="hero-actions">
-        <a routerLink="/productos" class="btn-primary-custom">Ver productos</a>
-        <a routerLink="/carrito" class="btn-secondary-custom">Mi carrito</a>
+        <a routerLink="/productos" class="btn-primary">
+          Ver productos
+        </a>
+
+        <a routerLink="/login" class="btn-secondary">
+          Iniciar sesión
+        </a>
       </div>
     </div>
 
     <div class="hero-card">
-      <h3>Oferta destacada</h3>
-      <p>RTX 4060 + Monitor Gamer</p>
-      <strong>S/ 4500</strong>
-      <span>Stock limitado</span>
+      <div class="hero-icon">💻</div>
+      <h3>Compra tecnológica segura</h3>
+      <p>Productos organizados, pedidos controlados y comprobantes disponibles.</p>
     </div>
   </section>
 
-  <section class="stats">
-    <div class="stat-card">
-      <h3>+50</h3>
-      <p>Productos tecnológicos</p>
+  <section class="benefits-grid">
+
+    <div class="benefit-card">
+      <div class="benefit-icon">🛒</div>
+      <h3>Catálogo público</h3>
+      <p>Consulta los productos disponibles sin necesidad de iniciar sesión.</p>
     </div>
 
-    <div class="stat-card">
-      <h3>24/7</h3>
-      <p>Catálogo disponible</p>
+    <div class="benefit-card">
+      <div class="benefit-icon">🔐</div>
+      <h3>Compra con cuenta</h3>
+      <p>Para agregar productos al carrito e iniciar un pedido debes iniciar sesión.</p>
     </div>
 
-    <div class="stat-card">
-      <h3>JWT</h3>
-      <p>Seguridad integrada</p>
+    <div class="benefit-card">
+      <div class="benefit-icon">📄</div>
+      <h3>Comprobante PDF</h3>
+      <p>Cuando tu pedido sea confirmado, podrás descargar tu comprobante.</p>
+    </div>
+
+  </section>
+
+  <section class="categories-section">
+    <div class="section-title">
+      <span>Categorías</span>
+      <h2>Explora por tipo de producto</h2>
+    </div>
+
+    <div class="categories-grid">
+      <div class="category-card">
+        <strong>Laptops</strong>
+        <p>Equipos para estudio, trabajo y productividad.</p>
+      </div>
+
+      <div class="category-card">
+        <strong>Accesorios</strong>
+        <p>Complementos para mejorar tu experiencia tecnológica.</p>
+      </div>
+
+      <div class="category-card">
+        <strong>Componentes</strong>
+        <p>Partes y piezas para mejorar tu computadora.</p>
+      </div>
+
+      <div class="category-card">
+        <strong>Periféricos</strong>
+        <p>Teclados, mouse, audífonos y más.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <div class="section-header">
+      <div>
+        <span>Productos destacados</span>
+        <h2>Últimos productos disponibles</h2>
+      </div>
+
+      <a routerLink="/productos">
+        Ver catálogo completo
+      </a>
+    </div>
+
+    <div class="loading" *ngIf="cargando">
+      Cargando productos...
+    </div>
+
+    <div class="featured-grid" *ngIf="!cargando && productosDestacados.length > 0">
+
+      <div class="product-card" *ngFor="let producto of productosDestacados">
+
+        <div class="product-image">
+          <img
+            [src]="obtenerImagen(producto.imagenUrl)"
+            [alt]="producto.nombre">
+        </div>
+
+        <div class="product-info">
+          <span>{{ producto.categoria?.nombre || 'Sin categoría' }}</span>
+          <h3>{{ producto.nombre }}</h3>
+          <p>{{ producto.descripcion }}</p>
+
+          <div class="product-bottom">
+            <strong>S/ {{ producto.precio }}</strong>
+
+            <button (click)="verDetalle(producto.id)">
+              Ver detalle
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="empty-products" *ngIf="!cargando && productosDestacados.length === 0">
+      <h3>No hay productos disponibles</h3>
+      <p>Cuando el administrador registre productos, aparecerán aquí.</p>
     </div>
   </section>
 
