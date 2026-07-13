@@ -17,6 +17,8 @@ export class Productos implements OnInit {
   productosFiltrados: any[] = [];
 
   busqueda = '';
+  categoriaSeleccionada = 'TODOS';
+  categorias: string[] = [];
   mensaje = '';
   cargando = true;
   toast = '';
@@ -39,12 +41,20 @@ export class Productos implements OnInit {
       next: (data) => {
         this.productos = data;
         this.productosFiltrados = data;
+
+        this.categorias = [
+          ...new Set(
+            data.map((producto) => producto.categoria?.nombre).filter((nombre) => !!nombre),
+          ),
+        ];
+
         this.cargando = false;
         this.cdr.detectChanges();
       },
       error: () => {
         this.mensaje = 'No se pudieron cargar los productos';
         this.cargando = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -52,12 +62,23 @@ export class Productos implements OnInit {
   filtrarProductos(): void {
     const texto = this.busqueda.toLowerCase().trim();
 
-    this.productosFiltrados = this.productos.filter(
-      (producto) =>
+    this.productosFiltrados = this.productos.filter((producto) => {
+      const coincideTexto =
         producto.nombre.toLowerCase().includes(texto) ||
         producto.descripcion.toLowerCase().includes(texto) ||
-        (producto.categoria?.nombre || '').toLowerCase().includes(texto),
-    );
+        (producto.categoria?.nombre || '').toLowerCase().includes(texto);
+
+      const coincideCategoria =
+        this.categoriaSeleccionada === 'TODOS' ||
+        producto.categoria?.nombre === this.categoriaSeleccionada;
+
+      return coincideTexto && coincideCategoria;
+    });
+  }
+
+  seleccionarCategoria(categoria: string): void {
+    this.categoriaSeleccionada = categoria;
+    this.filtrarProductos();
   }
 
   agregarCarrito(productoId: number): void {

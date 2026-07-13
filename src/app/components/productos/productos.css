@@ -373,3 +373,33 @@
     filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.18));
   }
 }
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.category-filter button {
+  border: 1px solid #bfdbfe;
+  background: #ffffff;
+  color: #1d4ed8;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-filter button:hover {
+  background: #eff6ff;
+  transform: translateY(-2px);
+}
+
+.category-filter button.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+}

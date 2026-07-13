@@ -16,6 +16,23 @@
     </div>
   </div>
 
+  <div class="category-filter" *ngIf="!cargando && categorias.length > 0">
+
+    <button
+      [class.active]="categoriaSeleccionada === 'TODOS'"
+      (click)="seleccionarCategoria('TODOS')">
+      Todos
+    </button>
+
+    <button
+      *ngFor="let categoria of categorias"
+      [class.active]="categoriaSeleccionada === categoria"
+      (click)="seleccionarCategoria(categoria)">
+      {{ categoria }}
+    </button>
+
+  </div>
+
   <div class="summary-row">
     <div class="summary-card">
       <span>Total productos</span>
