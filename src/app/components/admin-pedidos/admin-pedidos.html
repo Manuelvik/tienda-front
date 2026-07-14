@@ -32,7 +32,7 @@
         </div>
 
         <span class="estado" [ngClass]="estadoClase(pedido.estado)">
-          {{ pedido.estado || 'PENDIENTE' }}
+          {{ estadoTexto(pedido.estado) }}
         </span>
       </div>
 
@@ -55,7 +55,7 @@
           [(ngModel)]="pedido.estado"
           [disabled]="actualizandoId === pedido.id || eliminandoId === pedido.id">
           <option *ngFor="let estado of estados" [value]="estado">
-            {{ estado }}
+            {{ estadoTexto(estado) }}
           </option>
         </select>
       </div>

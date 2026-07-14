@@ -13,8 +13,7 @@ import { Pedido } from '../../services/pedido';
 export class AdminPedidos implements OnInit {
   pedidos: any[] = [];
 
-  estados = ['PENDIENTE', 'COMPLETADO', 'CANCELADO'];
-
+  estados = ['PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION', 'EN_CAMINO', 'ENTREGADO', 'CANCELADO'];
   cargando = true;
   actualizandoId: number | null = null;
   eliminandoId: number | null = null;
@@ -103,11 +102,41 @@ export class AdminPedidos implements OnInit {
   }
 
   estadoClase(estado: string): string {
-    if (!estado) {
-      return 'pendiente';
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'pendiente';
+      case 'CONFIRMADO':
+        return 'confirmado';
+      case 'EN_PREPARACION':
+        return 'preparacion';
+      case 'EN_CAMINO':
+        return 'camino';
+      case 'ENTREGADO':
+        return 'entregado';
+      case 'CANCELADO':
+        return 'cancelado';
+      default:
+        return 'pendiente';
     }
+  }
 
-    return estado.toLowerCase();
+  estadoTexto(estado: string): string {
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'Pendiente';
+      case 'CONFIRMADO':
+        return 'Confirmado';
+      case 'EN_PREPARACION':
+        return 'En preparación';
+      case 'EN_CAMINO':
+        return 'En camino';
+      case 'ENTREGADO':
+        return 'Entregado';
+      case 'CANCELADO':
+        return 'Cancelado';
+      default:
+        return 'Pendiente';
+    }
   }
 
   mostrarToast(texto: string): void {
