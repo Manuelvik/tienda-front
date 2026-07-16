@@ -115,3 +115,9 @@
     position: relative;
   }
 }
+.brand-title-img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
