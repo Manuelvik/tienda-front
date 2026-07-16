@@ -10,7 +10,7 @@
       <div>
         <h3>CyberStore</h3>
         <small>
-          {{ estaLogueado() ? ('Panel ' + rol) : 'Tienda online' }}
+          {{ estaLogueado() ? ('Panel ' + obtenerRol()) : 'Tienda online' }}
         </small>
       </div>
     </div>
@@ -25,17 +25,8 @@
         Productos
       </a>
 
-      <a
-        *ngIf="esUser()"
-        routerLink="/carrito">
-        Carrito
-      </a>
-
-      <a
-        *ngIf="esUser()"
-        routerLink="/pedidos">
-        Mis pedidos
-      </a>
+      <a *ngIf="!esAdmin()" routerLink="/carrito">Carrito</a>
+      <a *ngIf="!esAdmin()" routerLink="/pedidos">Mis pedidos</a>
 
       <a
         *ngIf="esAdmin()"

@@ -10,27 +10,35 @@ import { Auth } from '../../services/auth';
   styleUrl: './layout.css',
 })
 export class Layout {
-  rol = localStorage.getItem('rol') || 'USER';
+  rol = '';
 
   constructor(
     private authService: Auth,
     private router: Router,
   ) {}
 
+  estaLogueado(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  obtenerRol(): string {
+    return localStorage.getItem('rol') || '';
+  }
+
   esAdmin(): boolean {
-    return this.rol === 'ADMIN';
+    return this.obtenerRol() === 'ADMIN';
   }
 
   esUser(): boolean {
-    return this.rol === 'USER';
+    return this.obtenerRol() === 'USER';
   }
 
   logout(): void {
     this.authService.cerrarSesion();
+
+    this.rol = '';
+
     this.router.navigate(['/inicio']);
-  }
-  estaLogueado(): boolean {
-    return !!localStorage.getItem('token');
   }
 
   irLogin(): void {

@@ -31,7 +31,9 @@ export class Auth {
   }
 
   cerrarSesion(): void {
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('rol');
   }
 
   estaLogueado(): boolean {
