@@ -95,7 +95,22 @@
   color: #b45309;
 }
 
-.estado-completado {
+.estado-confirmado {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.estado-preparacion {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.estado-camino {
+  background: #cffafe;
+  color: #0e7490;
+}
+
+.estado-entregado {
   background: #dcfce7;
   color: #15803d;
 }
@@ -276,4 +291,56 @@
   background: #e2e8f0;
   color: #64748b;
   cursor: not-allowed;
+}
+
+.tracking {
+  display: flex;
+  align-items: center;
+  margin: 18px 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.tracking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+  gap: 6px;
+}
+
+.tracking-step span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.tracking-step small {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.tracking-step.active span {
+  background: #2563eb;
+  color: white;
+}
+
+.tracking-step.active small {
+  color: #1d4ed8;
+}
+
+.tracking-line {
+  height: 3px;
+  min-width: 28px;
+  background: #e2e8f0;
+  border-radius: 999px;
 }

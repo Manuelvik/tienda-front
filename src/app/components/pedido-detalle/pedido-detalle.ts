@@ -58,7 +58,7 @@ export class PedidoDetalle implements OnInit {
   }
 
   puedeDescargarPDF(): boolean {
-    return this.pedido?.estado === 'COMPLETADO' || this.pedido?.estado === 'ENTREGADO';
+    return this.pedido?.estado === 'ENTREGADO';
   }
 
   generarPDF(): void {

@@ -58,14 +58,64 @@ export class Pedidos implements OnInit {
   }
 
   estadoClase(estado: string): string {
-    if (estado === 'PENDIENTE') return 'estado-pendiente';
-    if (estado === 'COMPLETADO') return 'estado-completado';
-    if (estado === 'CANCELADO') return 'estado-cancelado';
-    return 'estado-pendiente';
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'estado-pendiente';
+      case 'CONFIRMADO':
+        return 'estado-confirmado';
+      case 'EN_PREPARACION':
+        return 'estado-preparacion';
+      case 'EN_CAMINO':
+        return 'estado-camino';
+      case 'ENTREGADO':
+        return 'estado-entregado';
+      case 'CANCELADO':
+        return 'estado-cancelado';
+      default:
+        return 'estado-pendiente';
+    }
+  }
+
+  estadoTexto(estado: string): string {
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'Pendiente';
+      case 'CONFIRMADO':
+        return 'Confirmado';
+      case 'EN_PREPARACION':
+        return 'En preparación';
+      case 'EN_CAMINO':
+        return 'En camino';
+      case 'ENTREGADO':
+        return 'Entregado';
+      case 'CANCELADO':
+        return 'Cancelado';
+      default:
+        return 'Pendiente';
+    }
+  }
+
+  mensajeEstado(estado: string): string {
+    switch (estado) {
+      case 'PENDIENTE':
+        return 'Tu pedido fue registrado y está pendiente de confirmación.';
+      case 'CONFIRMADO':
+        return 'Tu pedido fue confirmado por el administrador.';
+      case 'EN_PREPARACION':
+        return 'Tu pedido está siendo preparado.';
+      case 'EN_CAMINO':
+        return 'Tu pedido está en camino.';
+      case 'ENTREGADO':
+        return 'Tu pedido fue entregado correctamente. Ya puedes descargar tu comprobante.';
+      case 'CANCELADO':
+        return 'Tu pedido fue cancelado. No se puede generar comprobante.';
+      default:
+        return 'Estado del pedido no disponible.';
+    }
   }
 
   puedeDescargarPDF(pedido: any): boolean {
-    return pedido.estado === 'COMPLETADO';
+    return pedido.estado === 'ENTREGADO';
   }
 
   generarPDF(pedido: any): void {
