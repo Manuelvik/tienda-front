@@ -100,7 +100,7 @@ export class Pedidos implements OnInit {
       case 'PENDIENTE':
         return 'Tu pedido fue registrado y está pendiente de confirmación.';
       case 'CONFIRMADO':
-        return 'Tu pedido fue confirmado por el administrador.';
+        return 'Tu pedido fue confirmado por el administrador. Ya puedes descargar tu comprobante.';
       case 'EN_PREPARACION':
         return 'Tu pedido está siendo preparado.';
       case 'EN_CAMINO':
@@ -115,7 +115,12 @@ export class Pedidos implements OnInit {
   }
 
   puedeDescargarPDF(pedido: any): boolean {
-    return pedido.estado === 'ENTREGADO';
+    return (
+      pedido.estado === 'CONFIRMADO' ||
+      pedido.estado === 'EN_PREPARACION' ||
+      pedido.estado === 'EN_CAMINO' ||
+      pedido.estado === 'ENTREGADO'
+    );
   }
 
   generarPDF(pedido: any): void {

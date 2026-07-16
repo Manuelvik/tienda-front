@@ -116,14 +116,14 @@
 
       <button
         class="btn-pdf"
-        *ngIf="pedido.estado === 'ENTREGADO'"
+        *ngIf="puedeDescargarPDF(pedido)"
         (click)="generarPDF(pedido)">
         Descargar comprobante PDF
       </button>
 
       <button
         class="btn-pdf-disabled"
-        *ngIf="pedido.estado !== 'ENTREGADO' && pedido.estado !== 'CANCELADO'"
+        *ngIf="!puedeDescargarPDF(pedido) && pedido.estado !== 'CANCELADO'"
         disabled>
         Comprobante pendiente
       </button>

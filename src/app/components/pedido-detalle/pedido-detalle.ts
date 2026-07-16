@@ -58,12 +58,17 @@ export class PedidoDetalle implements OnInit {
   }
 
   puedeDescargarPDF(): boolean {
-    return this.pedido?.estado === 'ENTREGADO';
+    return (
+      this.pedido?.estado === 'CONFIRMADO' ||
+      this.pedido?.estado === 'EN_PREPARACION' ||
+      this.pedido?.estado === 'EN_CAMINO' ||
+      this.pedido?.estado === 'ENTREGADO'
+    );
   }
 
   generarPDF(): void {
     if (!this.puedeDescargarPDF()) {
-      this.mostrarToast('El comprobante estará disponible cuando el pedido sea completado');
+      this.mostrarToast('El comprobante estará disponible cuando el pedido sea confirmado');
       return;
     }
 
